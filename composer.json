@@ -29,6 +29,6 @@
         }
     },
     "require": {
-        "zonuexe/objectsystem": "0.2.*"
+        "zonuexe/objectsystem": "~0.2.1"
     }
 }
