@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="phpmd.example" default="example" basedir=".">
+
+    <taskdef name="phpmd" classname="org.phpmd.ant.PHPMDTask"/>
+
+</project>

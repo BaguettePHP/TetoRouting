@@ -1,0 +1,34 @@
+{
+    "name": "zonuexe/routing",
+    "description": "Simple Web Application Router",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "USAMI Kenta",
+            "email": "tadsan@zonu.me"
+        }
+    ],
+    "keywords": [
+        "router"
+    ],
+    "require-dev": {
+         "phpunit/phpunit": "~4.3.5"
+        ,"theseer/phpdox":  "~0.7.0"
+        ,"phploc/phploc":   "~2.0.6"
+        ,"phpmd/phpmd":     "@stable"
+        ,"satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Teto\\Routing\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Teto\\Routing\\": "tests/"
+        }
+    },
+    "require": {
+        "zonuexe/objectsystem": "0.2.*"
+    }
+}
