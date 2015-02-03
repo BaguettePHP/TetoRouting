@@ -1,6 +1,14 @@
 <?php
 namespace Teto\Routing;
 
+/**
+ * Action object
+ *
+ * @package    Teto\Routing
+ * @author     USAMI Kenta <tadsan@zonu.me>
+ * @copyright  2015 USAMI Kenta
+ * @license    http://www.apache.org/licenses/LICENSE-2.0
+ */
 class Action
 {
     use \Teto\Object\TypedProperty;

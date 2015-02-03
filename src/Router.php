@@ -1,6 +1,14 @@
 <?php
 namespace Teto\Routing;
 
+/**
+ * Router
+ *
+ * @package    Teto\Routing
+ * @author     USAMI Kenta <tadsan@zonu.me>
+ * @copyright  2015 USAMI Kenta
+ * @license    http://www.apache.org/licenses/LICENSE-2.0
+ */
 class Router
 {
     /** @var \Teto\Routing\Action[] */
@@ -18,8 +26,17 @@ class Router
         }
     }
 
+    /**
+     * @param   string $method
+     * @param   string $path
+     * @return  \Teto\Routing\Action
+     */
     public function match($method, $path)
     {
+        if (strpos($path, '//') !== false) {
+            return $this->getNotFoundAction($method, $path);
+        }
+
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
         foreach ($this->actions as $action) {
@@ -28,7 +45,22 @@ class Router
             }
         }
 
-        return new Action([$method], $split_path, [], $this->error_action['#404']);
+        return $this->getNotFoundAction($method, $path);
+    }
+
+    /**
+     * @param   string $method
+     * @param   string $path
+     * @return  \Teto\Routing\Action
+     */
+    public function getNotFoundAction($method, $path)
+    {
+        return new Action(
+            [$method],
+            explode('/', $path),
+            [],
+            $this->error_action['#404']
+        );
     }
 
     /**
