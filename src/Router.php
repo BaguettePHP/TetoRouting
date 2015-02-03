@@ -38,8 +38,13 @@ class Router
         }
 
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
+        $count = count($split_path);
 
-        foreach ($this->actions as $action) {
+        if (empty($this->actions[$count])) {
+            return $this->getNotFoundAction($method, $path);
+        }
+
+        foreach ($this->actions[$count] as $action) {
             if ($matched = $action->match($method, $split_path)) {
                 return $matched;
             }
@@ -72,8 +77,14 @@ class Router
         $path   = array_shift($action_tuple);
         $value  = array_shift($action_tuple) ?: true ;
         $params = array_shift($action_tuple) ?: [] ;
+        $action = Action::create($method, $path, $value, $params);
+        $count  = count($action->split_path);
 
-        $this->actions[] = Action::create($method, $path, $value, $params);
+        if (!isset($this->actions[$count])) {
+            $this->actions[$count] = [];
+        }
+
+        $this->actions[$count][] = $action;
     }
 
     /**
