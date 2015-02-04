@@ -3,9 +3,11 @@ namespace Teto\Routing;
 
 final class RouterTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_match()
+    /**
+     * @dataProvider dataProviderFor_match
+     */
+    public function test_match($method, $path, $expected_value, $expected_param)
     {
-        $not_found = 'Not Found!';
         $re_user = '/^@([-A-Za-z]{3,15})/';
         $re_id   = '/^\d+/';
         $route_map = [
@@ -16,24 +18,43 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
             ['GET|POST', '/search/:word', 'search',          ['word' => '/^.{1,10}$/']],
-             '#404' => $not_found
+             '#404' => 'Not Found!'
         ];
         $router = new Router($route_map);
 
-        $requests = [
-            [$not_found,        'GET', '/foo'],
-            ['show_user',       'GET', '/@foo'],
-            ['show_user_works', 'GET', '/@foo/works'],
-            ['show_user_work',  'GET', '/@foo/works/123'],
-            [$not_found,        'GET', '/@foo/works/abc'],
-            ['article_index',   'GET', '/articles'],
-            ['search',          'GET', '/search/1234567890'],
-            [$not_found,        'GET', '/search/12345678901'],
-        ];
+        $actual = $router->match($method, $path);
+        $split_path = explode('/', substr($path, 1));
 
-        foreach ($requests as $req) {
-            list($expected, $method, $path) = $req;
-            $this->assertEquals($expected, $router->match($method, $path)->value);
+        $this->assertEquals($expected_value, $actual->value);
+        $this->assertEquals($expected_param, $actual->param);
+        $this->assertEquals(count($split_path), count($actual->split_path));
+
+        if ($actual->param_pos) {
+            foreach ($actual->split_path as $i => $path) {
+                if (empty($actual->param_pos[$i])) {
+                    $this->assertEquals($split_path[$i], $path);
+                } else {
+                    $this->assertRegExp($path, $split_path[$i]);
+                }
+            }
+        } else {
+            $this->assertEquals($split_path, $actual->split_path);
         }
+    }
+
+    public function dataProviderFor_match()
+    {
+        $not_found = 'Not Found!';
+        
+        return [
+            ['GET', '/foo',                $not_found,        []],
+            ['GET', '/@foo',               'show_user',       ['user' => 'foo']],
+            ['GET', '/@foo/works',         'show_user_works', ['user' => 'foo']],
+            ['GET', '/@foo/works/123',     'show_user_work',  ['user' => 'foo', 'id' => 123]],
+            ['GET', '/@foo/works/abc',     $not_found,        []],
+            ['GET', '/articles',           'article_index',   []],
+            ['GET', '/search/1234567890',  'search',          ['word' => '1234567890']],
+            ['GET', '/search/12345678901', $not_found,        []],
+        ];
     }
 }
