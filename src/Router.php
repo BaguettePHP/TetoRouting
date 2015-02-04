@@ -60,9 +60,12 @@ class Router
      */
     public function getNotFoundAction($method, $path)
     {
+        $split_path = explode('/', $path);
+        array_shift($split_path);
+
         return new Action(
             [$method],
-            explode('/', $path),
+            $split_path,
             [],
             $this->error_action['#404']
         );
