@@ -19,6 +19,7 @@ class Action
         'param_pos'  => 'array',
         'value'      => 'mixed',
         'param'      => 'array',
+        'extension'  => 'mixed',
     ];
 
     private static $enum_values = [
@@ -29,13 +30,15 @@ class Action
      * @param string[] $methods
      * @param string[] $split_path
      * @param array    $param_pos
+     * @param string   $extension
      * @param mixed    $value
      */
-    public function __construct(array $methods, array $split_path, array $param_pos, $value)
+    public function __construct(array $methods, array $split_path, array $param_pos, $extension, $value)
     {
         $this->methods    = $methods;
         $this->split_path = $split_path;
         $this->param_pos  = $param_pos;
+        $this->extension  = $extension;
         $this->value      = $value;
         $this->param      = [];
     }
@@ -45,10 +48,23 @@ class Action
      * @param  string[] $request_path
      * @return Action|false
      */
-    public function match($request_method, array $request_path)
+    public function match($request_method, array $request_path, $extension)
     {
+        $request_len = count($request_path);
+
         if (!in_array($request_method, $this->methods, true) ||
-            count($request_path) !== count($this->split_path)) {
+            $request_len !== count($this->split_path)) {
+            return false;
+        }
+
+        if (empty($this->extension)) {
+            if (strlen($extension) > 0) {
+                $request_path[$request_len - 1] .= '.' . $extension;
+            }
+            $extension = null;
+        }
+
+        if (!$this->matchExtension($extension)) {
             return false;
         }
 
@@ -79,6 +95,19 @@ class Action
     }
 
     /**
+     * @param  string  $extension
+     * @return boolean
+     */
+    public function matchExtension($extension)
+    {
+        if (is_array($this->extension)) {
+            return in_array($extension, $this->extension, true);
+        }
+
+        return $this->extension === $extension;
+    }
+
+    /**
      * @param  string $method_str ex. "GET|POST"
      * @param  string $path       ex. "/dirname/path"
      * @param  mixed  $value
@@ -88,9 +117,10 @@ class Action
     public static function create($method_str, $path, $value, array $params = [])
     {
         $methods = explode('|', $method_str);
-        list($split_path, $param_pos) = self::parsePathParam($path, $params);
+        list($split_path, $param_pos, $ext)
+            = self::parsePathParam($path, $params);
 
-        return new Action($methods, $split_path, $param_pos, $value);
+        return new Action($methods, $split_path, $param_pos, $ext, $value);
     }
 
     /**
@@ -102,7 +132,14 @@ class Action
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
-        if (!$params) { return [$split_path, []]; }
+        if (!$params) { return [$split_path, [], null]; }
+
+        if (isset($params['?ext'])) {
+            $ext = $params['?ext'];
+            unset($params['?ext']);
+        } else {
+            $ext = null;
+        }
 
         $new_split_path = [];
         $param_pos = [];
@@ -122,7 +159,7 @@ class Action
             }
         }
 
-        return [$new_split_path, $param_pos];
+        return [$new_split_path, $param_pos, $ext];
     }
 
     /**

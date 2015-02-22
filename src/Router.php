@@ -17,6 +17,10 @@ class Router
     /** @var array */
     public $error_action = [];
 
+    /**
+     * @param array $route_map
+     * @param array $options
+     */
     public function __construct(array $route_map)
     {
         foreach ($route_map as $k => $m) {
@@ -40,17 +44,28 @@ class Router
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
         $count = count($split_path);
 
+        $file = explode('.', $split_path[$count - 1], 2);
+        $ext  = null;
+
+        if (isset($file[1]) && strlen($file[1]) > 0) {
+            if (strlen($file[1]) > 0) {
+                list($split_path[$count - 1], $ext) = $file;
+            } else {
+                $split_path[$count - 1] .= '.';
+            }
+        }
+
         if (empty($this->actions[$count])) {
-            return $this->getNotFoundAction($method, $path);
+            return $this->getNotFoundAction($method, $path, $ext);
         }
 
         foreach ($this->actions[$count] as $action) {
-            if ($matched = $action->match($method, $split_path)) {
+            if ($matched = $action->match($method, $split_path, $ext)) {
                 return $matched;
             }
         }
 
-        return $this->getNotFoundAction($method, $path);
+        return $this->getNotFoundAction($method, $path, $ext);
     }
 
     /**
@@ -67,6 +82,7 @@ class Router
             [$method],
             $split_path,
             [],
+            null,
             $this->error_action['#404']
         );
     }
