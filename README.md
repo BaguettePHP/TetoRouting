@@ -26,10 +26,12 @@ $routing_map = [
     ['GET',      '/',            'index'  ],
     ['GET|POST', '/search',      'search' ],
     ['GET',      '/article/:id', 'article' , ['id' => '/(\d+)/']],
+    ['GET',      '/info',        'feed' ,    ['?ext' => ['rss', 'rdf', 'xml']]],
      '#404'       =>             'not_found' // special
 ];
-$router = new \Teto\Routing\Router($routing_map);
 
+$router = new \Teto\Routing\Router($routing_map);
+$action = $router->match($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 ```
 
 Related Libraries
