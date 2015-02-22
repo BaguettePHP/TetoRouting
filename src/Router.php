@@ -44,14 +44,16 @@ class Router
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
         $count = count($split_path);
 
-        $file = explode('.', $split_path[$count - 1], 2);
         $ext  = null;
 
-        if (isset($file[1]) && strlen($file[1]) > 0) {
-            if (strlen($file[1]) > 0) {
-                list($split_path[$count - 1], $ext) = $file;
-            } else {
-                $split_path[$count - 1] .= '.';
+        if ($count > 0) {
+            $file = explode('.', $split_path[$count - 1], 2);
+            if (isset($file[1]) && strlen($file[1]) > 0) {
+                if (strlen($file[1]) > 0) {
+                    list($split_path[$count - 1], $ext) = $file;
+                } else {
+                    $split_path[$count - 1] .= '.';
+                }
             }
         }
 

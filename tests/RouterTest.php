@@ -31,7 +31,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
     {
 
         $actual = self::$router->match($method, $path);
-        $split_path = explode('/', substr($path, 1));
+        $split_path = (strlen($path) === 1) ? [] : explode('/', substr($path, 1));
 
         $this->assertInstanceOf('\Teto\Routing\Action', $actual);
         $this->assertEquals($expected_value, $actual->value);
@@ -62,6 +62,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
         $not_found = 'Not Found!';
 
         return [
+            ['GET', '/',                   'index',           []],
             ['GET', '/foo',                $not_found,        []],
             ['GET', '/@foo',               'show_user',       ['user' => 'foo']],
             ['GET', '/@foo.json',          $not_found,        []],
