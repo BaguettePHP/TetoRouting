@@ -16,7 +16,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/:user/works/:id',   'show_user_work',  ['user' => $re_user, 'id' => $re_id]],
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
-            ['GET', '/data',              'data_json',       ['?ext' => 'json']],
+            ['GET', '/data',              'data_json',       ['?ext' => ['', 'json']]],
             ['GET|POST', '/search/:word', 'search',          ['word' => '/^.{1,10}$/']],
              '#404' => 'Not Found!'
         ];
@@ -70,7 +70,8 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/@foo/works/123',     'show_user_work',  ['user' => 'foo', 'id' => 123]],
             ['GET', '/@foo/works/abc',     $not_found,        []],
             ['GET', '/articles',           'article_index',   []],
-            ['GET', '/data',               $not_found,        []],
+            ['GET', '/data',               'data_json',       []],
+            ['GET', '/data.',              $not_found,        []],
             ['GET', '/data.json',          'data_json',       []],
             ['GET', '/search/1234567890',  'search',          ['word' => '1234567890']],
             ['GET', '/search/12345678901', $not_found,        []],
