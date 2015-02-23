@@ -39,7 +39,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => [],
                 'extension'  => null,
                 'param_pos'  => [],
-                'request'    => ['method' => 'GET', 'path' => ['foo'], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => ['foo'], 'ext' => ''],
             ],
             [
                 'expected'   => true,
@@ -48,7 +48,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => [],
                 'extension'  => null,
                 'param_pos'  => [],
-                'request'    => ['method' => 'GET', 'path' => [], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => [], 'ext' => ''],
             ],
             [
                 'expected'   => false,
@@ -57,7 +57,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['users', '/(\d+)/'],
                 'extension'  => null,
                 'param_pos'  => [],
-                'request'    => ['method' => 'GET', 'path' => [], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => [], 'ext' => ''],
             ],
             [
                 'expected'   => true,
@@ -66,7 +66,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['users', '/(\d+)/'],
                 'extension'  => null,
                 'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => ''],
             ],
             [
                 'expected'   => true,
@@ -75,7 +75,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['users', '/(\d+)/'],
                 'extension'  => null,
                 'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => ''],
             ],
             [
                 'expected'   => false,
@@ -84,7 +84,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['users', '/(\d+)/'],
                 'extension'  => null,
                 'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => ''],
             ],
             [
                 'expected'   => false,
@@ -93,7 +93,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['users', '/(\d+)/'],
                 'extension'  => null,
                 'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', 'a'], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => ['users', 'a'], 'ext' => ''],
             ],
             [
                 'expected'   => false,
@@ -102,7 +102,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['users', '/\A(\d+)\.json\z/'],
                 'extension'  => null,
                 'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1234'], 'ext' => null],
+                'request'    => ['method' => 'GET', 'path' => ['users', '1234'], 'ext' => ''],
             ],
             [
                 'expected'   => true,
@@ -118,7 +118,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'param'      => ['id' => '0401'],
                 'methods'    => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => 'jpg',
+                'extension'  => ['', 'jpg'],
                 'param_pos'  => [1 => 'id'],
                 'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'jpg'],
             ],
@@ -127,7 +127,7 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'param'      => [],
                 'methods'    => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => 'jpg',
+                'extension'  => ['', 'jpg'],
                 'param_pos'  => [1 => 'id'],
                 'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'png'],
             ],

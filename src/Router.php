@@ -44,7 +44,7 @@ class Router
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
         $count = count($split_path);
 
-        $ext  = null;
+        $ext  = '';
 
         if ($count > 0) {
             $file = explode('.', $split_path[$count - 1], 2);

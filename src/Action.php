@@ -19,7 +19,8 @@ class Action
         'param_pos'  => 'array',
         'value'      => 'mixed',
         'param'      => 'array',
-        'extension'  => 'mixed',
+        'extension'  => 'string',
+        'available_extensions' => 'array',
     ];
 
     private static $enum_values = [
@@ -33,19 +34,23 @@ class Action
      * @param string   $extension
      * @param mixed    $value
      */
-    public function __construct(array $methods, array $split_path, array $param_pos, $extension, $value)
+    public function __construct(array $methods, array $split_path, array $param_pos, $available_extensions, $value)
     {
         $this->methods    = $methods;
         $this->split_path = $split_path;
         $this->param_pos  = $param_pos;
-        $this->extension  = $extension;
         $this->value      = $value;
         $this->param      = [];
+        $this->available_extensions
+            = is_array($available_extensions)
+            ? array_flip($available_extensions)
+            : ['' => true];
     }
 
     /**
      * @param  string   $request_method
      * @param  string[] $request_path
+     * @param  string   $extension
      * @return Action|false
      */
     public function match($request_method, array $request_path, $extension)
@@ -57,14 +62,16 @@ class Action
             return false;
         }
 
-        if (empty($this->extension)) {
+        if ($this->available_extensions === ['' => true]) {
             if (strlen($extension) > 0) {
                 $request_path[$request_len - 1] .= '.' . $extension;
             }
-            $extension = null;
+            $extension = '';
         }
 
-        if (!$this->matchExtension($extension)) {
+        if ($this->matchExtension($extension)) {
+            $this->extension = $extension;
+        } else {
             return false;
         }
 
@@ -100,11 +107,7 @@ class Action
      */
     public function matchExtension($extension)
     {
-        if (is_array($this->extension)) {
-            return in_array($extension, $this->extension, true);
-        }
-
-        return $this->extension === $extension;
+        return isset($this->available_extensions[$extension]);
     }
 
     /**

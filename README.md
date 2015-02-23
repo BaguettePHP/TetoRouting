@@ -25,7 +25,7 @@ Routing DSL
 $routing_map = [
     ['GET',      '/',            'index'  ],
     ['GET|POST', '/search',      'search' ],
-    ['GET',      '/article/:id', 'article' , ['id' => '/(\d+)/']],
+    ['GET',      '/article/:id', 'article' , ['id' => '/(\d+)/'], '?ext' => ['', 'txt']],
     ['GET',      '/info',        'feed' ,    ['?ext' => ['rss', 'rdf', 'xml']]],
      '#404'       =>             'not_found' // special
 ];
