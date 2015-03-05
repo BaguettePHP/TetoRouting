@@ -117,10 +117,10 @@ class Action
      * @param  array  $params
      * @return Action new instance object
      */
-    public static function create($method_str, $path, $value, array $params = [])
+    public static function create($method_str, $path, $value, $ext, array $params = [])
     {
         $methods = explode('|', $method_str);
-        list($split_path, $param_pos, $ext)
+        list($split_path, $param_pos)
             = self::parsePathParam($path, $params);
 
         return new Action($methods, $split_path, $param_pos, $ext, $value);
@@ -135,14 +135,7 @@ class Action
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
-        if (!$params) { return [$split_path, [], null]; }
-
-        if (isset($params['?ext'])) {
-            $ext = $params['?ext'];
-            unset($params['?ext']);
-        } else {
-            $ext = null;
-        }
+        if (!$params) { return [$split_path, []]; }
 
         $new_split_path = [];
         $param_pos = [];
@@ -162,7 +155,7 @@ class Action
             }
         }
 
-        return [$new_split_path, $param_pos, $ext];
+        return [$new_split_path, $param_pos];
     }
 
     /**

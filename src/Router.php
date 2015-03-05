@@ -11,6 +11,8 @@ namespace Teto\Routing;
  */
 class Router
 {
+    const _ext = '?ext';
+
     /** @var \Teto\Routing\Action[] */
     public $actions = [];
 
@@ -94,11 +96,18 @@ class Router
      */
     public function setAction(array $action_tuple)
     {
+        if (isset($action_tuple[self::_ext])) {
+            $ext = $action_tuple[self::_ext];
+            unset($action_tuple[self::_ext]);
+        } else {
+            $ext = null;
+        }
+
         $method = array_shift($action_tuple);
         $path   = array_shift($action_tuple);
         $value  = array_shift($action_tuple) ?: true ;
         $params = array_shift($action_tuple) ?: [] ;
-        $action = Action::create($method, $path, $value, $params);
+        $action = Action::create($method, $path, $value, $ext, $params);
         $count  = count($action->split_path);
 
         if (!isset($this->actions[$count])) {
