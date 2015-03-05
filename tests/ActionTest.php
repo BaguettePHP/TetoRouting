@@ -164,12 +164,12 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'expected' => [[], [], null],
+                'expected' => [[], []],
                 'path'     => '/',
                 'params'   => [],
             ],
             [
-                'expected' => [['login'], [], null],
+                'expected' => [['login'], []],
                 'path'     => '/login',
                 'params'   => [],
             ],
@@ -177,15 +177,14 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'expected' => [
                     ['user', '/(@[-A-Za-z]{3,15})/', 'works'],
                     [1 => 'name'],
-                    null
                 ],
                 'path'     => '/user/:name/works',
                 'params'   => ['name' => '/(@[-A-Za-z]{3,15})/'],
             ],
             [
-                'expected' => [['login'], [], 'json'],
+                'expected' => [['login'], []],
                 'path'     => '/login',
-                'params'   => ['?ext' => 'json'],
+                'params'   => [],
             ],
         ];
     }

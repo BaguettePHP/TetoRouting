@@ -16,7 +16,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/:user/works/:id',   'show_user_work',  ['user' => $re_user, 'id' => $re_id]],
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
-            ['GET', '/data',              'data_json',       ['?ext' => ['', 'json']]],
+            ['GET', '/data',              'data_json',        '?ext' => ['', 'json']],
             ['GET|POST', '/search/:word', 'search',          ['word' => '/^.{1,10}$/']],
              '#404' => 'Not Found!'
         ];
