@@ -86,7 +86,7 @@ class Router
             [$method],
             $split_path,
             [],
-            null,
+            [],
             $this->error_action['#404']
         );
     }
@@ -100,7 +100,7 @@ class Router
             $ext = $action_tuple[self::_ext];
             unset($action_tuple[self::_ext]);
         } else {
-            $ext = null;
+            $ext = [];
         }
 
         $method = array_shift($action_tuple);
