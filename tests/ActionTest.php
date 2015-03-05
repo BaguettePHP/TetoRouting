@@ -149,6 +149,24 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'param_pos'  => [1 => 'id'],
                 'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'png'],
             ],
+            [
+                'expected'   => true,
+                'param'      => ['id' => '0401'],
+                'methods'    => ['GET'],
+                'split_path' => ['users', '/(\d+)/'],
+                'extension'  => ['*'],
+                'param_pos'  => [1 => 'id'],
+                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'png'],
+            ],
+            [
+                'expected'   => false,
+                'param'      => [],
+                'methods'    => ['GET'],
+                'split_path' => ['users', '/(\d+)/'],
+                'extension'  => ['jpg', 'gif'],
+                'param_pos'  => [1 => 'id'],
+                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => ''],
+            ],
         ];
     }
 

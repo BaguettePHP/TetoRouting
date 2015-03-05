@@ -13,6 +13,8 @@ class Action
 {
     use \Teto\Object\TypedProperty;
 
+    const WILDCARD = '*';
+
     private static $property_types = [
         'methods'     => 'enum[]',
         'split_path'  => 'string[]',
@@ -20,6 +22,7 @@ class Action
         'value'       => 'mixed',
         'param'       => 'array',
         'extension'   => 'string',
+        'is_wildcard' => 'bool',
         'available_extensions' => 'array',
     ];
 
@@ -41,7 +44,7 @@ class Action
         $this->param_pos   = $param_pos;
         $this->value       = $value;
         $this->param       = [];
-
+        $this->is_wildcard = in_array(self::WILDCARD, $available_extensions, true);
         $this->available_extensions
             = empty($available_extensions) ? ['' => true]
             : array_fill_keys($available_extensions, true) ;
@@ -107,7 +110,11 @@ class Action
      */
     public function matchExtension($extension)
     {
-        return isset($this->available_extensions[$extension]);
+        if (isset($this->available_extensions[$extension])) {
+            return true;
+        } else {
+            return $this->is_wildcard && $extension !== '';
+        }
     }
 
     /**
