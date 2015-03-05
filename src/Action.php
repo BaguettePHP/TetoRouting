@@ -14,12 +14,12 @@ class Action
     use \Teto\Object\TypedProperty;
 
     private static $property_types = [
-        'methods'    => 'enum[]',
-        'split_path' => 'string[]',
-        'param_pos'  => 'array',
-        'value'      => 'mixed',
-        'param'      => 'array',
-        'extension'  => 'string',
+        'methods'     => 'enum[]',
+        'split_path'  => 'string[]',
+        'param_pos'   => 'array',
+        'value'       => 'mixed',
+        'param'       => 'array',
+        'extension'   => 'string',
         'available_extensions' => 'array',
     ];
 
@@ -31,20 +31,20 @@ class Action
      * @param string[] $methods
      * @param string[] $split_path
      * @param array    $param_pos
-     * @param string   $extension
+     * @param string[] $extension
      * @param mixed    $value
      */
-    public function __construct(array $methods, array $split_path, array $param_pos, $available_extensions, $value)
+    public function __construct(array $methods, array $split_path, array $param_pos, array $available_extensions, $value)
     {
-        $this->methods    = $methods;
-        $this->split_path = $split_path;
-        $this->param_pos  = $param_pos;
-        $this->value      = $value;
-        $this->param      = [];
+        $this->methods     = $methods;
+        $this->split_path  = $split_path;
+        $this->param_pos   = $param_pos;
+        $this->value       = $value;
+        $this->param       = [];
+
         $this->available_extensions
-            = is_array($available_extensions)
-            ? array_flip($available_extensions)
-            : ['' => true];
+            = empty($available_extensions) ? ['' => true]
+            : array_fill_keys($available_extensions, true) ;
     }
 
     /**
@@ -114,10 +114,11 @@ class Action
      * @param  string $method_str ex. "GET|POST"
      * @param  string $path       ex. "/dirname/path"
      * @param  mixed  $value
+     * @param  str[]  $ext
      * @param  array  $params
      * @return Action new instance object
      */
-    public static function create($method_str, $path, $value, $ext, array $params = [])
+    public static function create($method_str, $path, $value, array $ext, array $params = [])
     {
         $methods = explode('|', $method_str);
         list($split_path, $param_pos)
