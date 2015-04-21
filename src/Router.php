@@ -12,6 +12,8 @@ namespace Teto\Routing;
 class Router
 {
     const _ext = '?ext';
+    const GET  = 'GET';
+    const HEAD = 'HEAD';
 
     /** @var \Teto\Routing\Action[] */
     public $actions = [];
@@ -39,6 +41,7 @@ class Router
      */
     public function match($method, $path)
     {
+        if ($method === self::HEAD) { $method = self::GET; }
         if (strpos($path, '//') !== false) {
             return $this->getNotFoundAction($method, $path);
         }

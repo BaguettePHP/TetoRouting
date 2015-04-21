@@ -63,10 +63,13 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
 
         return [
             ['GET', '/',                   'index',           []],
+            ['HEAD', '/',                  'index',           []],
             ['GET', '/foo',                $not_found,        []],
             ['GET', '/@foo',               'show_user',       ['user' => 'foo']],
             ['GET', '/@foo.json',          $not_found,        []],
             ['GET', '/@foo/works',         'show_user_works', ['user' => 'foo']],
+            ['HEAD', '/@foo/works',        'show_user_works', ['user' => 'foo']],
+            ['POST', '/@foo/works',        $not_found,        []],
             ['GET', '/@foo/works/123',     'show_user_work',  ['user' => 'foo', 'id' => 123]],
             ['GET', '/@foo/works/abc',     $not_found,        []],
             ['GET', '/articles',           'article_index',   []],
