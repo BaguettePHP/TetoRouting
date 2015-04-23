@@ -10,13 +10,13 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
         $re_user = '/^@([-A-Za-z]{3,15})$/';
         $re_id   = '/^\d+$/';
         $route_map = [
-            ['GET', '/',                  'index'],
+            'root' => ['GET', '/',        'index'],
             ['GET', '/:user',             'show_user',       ['user' => $re_user]],
             ['GET', '/:user/works',       'show_user_works', ['user' => $re_user]],
             ['GET', '/:user/works/:id',   'show_user_work',  ['user' => $re_user, 'id' => $re_id]],
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
-            ['GET', '/data',              'data_json',        '?ext' => ['', 'json']],
+            'data' => ['GET', '/data',    'data_json',        '?ext' => ['', 'json']],
             ['GET|POST', '/search/:word', 'search',          ['word' => '/^.{1,10}$/']],
              '#404' => 'Not Found!'
         ];
