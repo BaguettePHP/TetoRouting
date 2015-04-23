@@ -18,6 +18,9 @@ class Router
     /** @var \Teto\Routing\Action[] */
     public $actions = [];
 
+    /** @var \Teto\Routing\Action[] */
+    public $named_actions = [];
+
     /** @var array */
     public $error_action = [];
 
@@ -28,8 +31,8 @@ class Router
     public function __construct(array $route_map)
     {
         foreach ($route_map as $k => $m) {
-            is_numeric($k)
-                ? $this->setAction($m)
+            ($k !== '#404')
+                ? $this->setAction($k, $m)
                 : $this->setSpecialAction($k, $m);
         }
     }
@@ -95,9 +98,10 @@ class Router
     }
 
     /**
-     * @param array $action_tuple
+     * @param int|string $key
+     * @param array      $action_tuple
      */
-    public function setAction(array $action_tuple)
+    public function setAction($key, array $action_tuple)
     {
         if (isset($action_tuple[self::_ext])) {
             $ext = $action_tuple[self::_ext];
@@ -118,6 +122,10 @@ class Router
         }
 
         $this->actions[$count][] = $action;
+
+        if (!is_numeric($key)) {
+            $this->named_actions[$key] = $action;
+        }
     }
 
     /**
