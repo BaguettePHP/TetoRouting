@@ -136,4 +136,18 @@ class Router
     {
         $this->error_action[$name] = $value;
     }
+
+    /**
+     * @param string  $name
+     * @param array   $param
+     * @param boolean $strict
+     */
+    public function makePath($name, array $param = [], $strict = false)
+    {
+        if (empty($this->named_actions[$name])) {
+            throw new \OutOfRangeException("\"$name\" is not exists.");
+        }
+
+        return $this->named_actions[$name]->makePath($param, $strict);
+    }
 }
