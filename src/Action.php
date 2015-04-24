@@ -126,6 +126,33 @@ class Action
     }
 
     /**
+     * @param  array   $param
+     * @param  boolean $strict
+     * @return string
+     */
+    public function makePath(array $param, $strict = false)
+    {
+        $path = "";
+
+        foreach ($this->split_path as $i => $pattern) {
+            if (!isset($this->param_pos[$i])) {
+                $path .= '/' . $pattern;
+                continue;
+            }
+
+            $name = $this->param_pos[$i];
+
+            if (!isset($param[$name]) || !preg_match($pattern, $param[$name], $matches)) {
+                throw new \DomainException("Error");
+            }
+
+            $path .= '/' . $param[$name];
+        }
+
+        return $path;
+    }
+
+    /**
      * @param  string $method_str ex. "GET|POST"
      * @param  string $path       ex. "/dirname/path"
      * @param  mixed  $value
