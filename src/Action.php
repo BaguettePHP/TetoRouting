@@ -153,11 +153,11 @@ class Action
     }
 
     /**
-     * @param  string $method_str ex. "GET|POST"
-     * @param  string $path       ex. "/dirname/path"
-     * @param  mixed  $value
-     * @param  str[]  $ext
-     * @param  array  $params
+     * @param  string   $method_str ex. "GET|POST"
+     * @param  string   $path       ex. "/dir_name/path"
+     * @param  mixed    $value
+     * @param  string[] $ext
+     * @param  array    $params
      * @return Action new instance object
      */
     public static function create($method_str, $path, $value, array $ext, array $params = [])
