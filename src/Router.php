@@ -85,10 +85,9 @@ class Router
      */
     public function getNotFoundAction($method, $path)
     {
-        $split_path = explode('/', $path);
-        array_shift($split_path);
+        $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
-        return new Action(
+        return new NotFoundAction(
             [$method],
             $split_path,
             [],
