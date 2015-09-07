@@ -43,6 +43,8 @@ You can get these libraries from Packagist.
   * [zonuexe/http-accept-language - Packagist](https://packagist.org/packages/zonuexe/http-accept-language)
 * [Teto Objectsystem](https://github.com/zonuexe/php-objectsystem)
   * [zonuexe/objectsystem - Packagist](https://packagist.org/packages/zonuexe/objectsystem)
+* [Baguette PHP](https://github.com/BaguettePHP/baguette)
+  * [zonuexe/baguette](https://packagist.org/packages/zonuexe/baguette)
 
 Copyright
 ---------
