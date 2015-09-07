@@ -8,6 +8,8 @@ Teto Routing
 
 Simple routing for WebApp
 
+No *magic*.  No *reflection*.  No *complex dependency*.
+
 Installation
 ------------
 
