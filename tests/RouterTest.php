@@ -14,6 +14,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/:user',             'show_user',       ['user' => $re_user]],
             ['GET', '/:user/works',       'show_user_works', ['user' => $re_user]],
             ['GET', '/:user/works/:id',   'show_user_work',  ['user' => $re_user, 'id' => $re_id]],
+            ['GET', '/et al.',            'etal'],
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
             'data' => ['GET', '/data',    'data_json',        '?ext' => ['', 'json']],
@@ -79,6 +80,10 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/data',               'data_json',       []],
             ['GET', '/data.',              $not_found,        []],
             ['GET', '/data.json',          'data_json',       []],
+            ['GET', '/et al',              $not_found,        []],
+            ['GET', '/et al.',             'etal',            []],
+            ['GET', '/et al.json',         $not_found,        []],
+            ['GET', '/et al..json',        $not_found,        []],
             ['GET', '/search/1234567890',  'search',          ['word' => '1234567890']],
             ['GET', '/search/12345678901', $not_found,        []],
         ];
