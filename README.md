@@ -2,9 +2,9 @@ Teto Routing
 ============
 
 [![Package version](http://img.shields.io/packagist/v/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![Build Status](https://travis-ci.org/zonuexe/php-simple-routing.svg?branch=master)](https://travis-ci.org/zonuexe/php-simple-routing)
+[![Build Status](https://travis-ci.org/BaguettePHP/php-simple-routing.svg?branch=master)](https://travis-ci.org/BaguettePHP/php-simple-routing)
 [![Packagist](http://img.shields.io/packagist/dt/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![Coverage Status](https://coveralls.io/repos/zonuexe/php-simple-routing/badge.svg)](https://coveralls.io/r/zonuexe/php-simple-routing)
+[![Coverage Status](https://coveralls.io/repos/BaguettePHP/php-simple-routing/badge.svg)](https://coveralls.io/r/BaguettePHP/php-simple-routing)
 
 Simple routing for WebApp
 
