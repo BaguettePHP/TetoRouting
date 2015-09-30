@@ -32,6 +32,9 @@ $routing_map = [
      '#404'       =>             'not_found' // special
 ];
 
+$action = \Teto\Routing\Router::dispatch($routing_map, $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+
+// Another way
 $router = new \Teto\Routing\Router($routing_map);
 $action = $router->match($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 ```
