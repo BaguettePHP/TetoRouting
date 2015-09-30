@@ -134,6 +134,17 @@ class Action
     {
         $path = "";
 
+        if ($strict) {
+            $got_keys = array_keys($param);
+            $expects  = array_values($this->param_pos);
+            $diff     = array_diff($got_keys, $expects);
+
+            if ($diff !== []) {
+                $json = json_encode(array_values($diff));
+                throw new \DomainException('unnecessary parameters: ' . $json);
+            }
+        }
+
         foreach ($this->split_path as $i => $pattern) {
             if (!isset($this->param_pos[$i])) {
                 $path .= '/' . $pattern;
@@ -149,7 +160,7 @@ class Action
             $path .= '/' . $param[$name];
         }
 
-        return $path;
+        return ($path === '') ? '/' : $path;
     }
 
     /**
