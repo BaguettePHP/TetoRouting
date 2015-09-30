@@ -25,8 +25,18 @@ class Router
     public $error_action = [];
 
     /**
+     * @param  array  $route_map
+     * @param  string $method
+     * @param  string $path
+     * @return \Teto\Routing\Action
+     */
+    public static function dispatch(array $route_map, $method, $path)
+    {
+        return (new Router($route_map))->match($method, $path);
+    }
+
+    /**
      * @param array $route_map
-     * @param array $options
      */
     public function __construct(array $route_map)
     {

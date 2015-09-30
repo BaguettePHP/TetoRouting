@@ -4,12 +4,13 @@ namespace Teto\Routing;
 final class RouterTest extends \PHPUnit_Framework_TestCase
 {
     private static $router;
+    private static $route_map;
 
     public static function setUpBeforeClass()
     {
         $re_user = '/^@([-A-Za-z]{3,15})$/';
         $re_id   = '/^\d+$/';
-        $route_map = [
+        self::$route_map = [
             'root' => ['GET', '/',        'index'],
             ['GET', '/:user',             'show_user',       ['user' => $re_user]],
             ['GET', '/:user/works',       'show_user_works', ['user' => $re_user]],
@@ -22,7 +23,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
              '#404' => 'Not Found!'
         ];
 
-        self::$router = new Router($route_map);
+        self::$router = new Router(self::$route_map);
     }
 
     /**
@@ -30,7 +31,6 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_match($method, $path, $expected_value, $expected_param)
     {
-
         $actual = self::$router->match($method, $path);
         $split_path = (strlen($path) === 1) ? [] : explode('/', substr($path, 1));
 
@@ -87,5 +87,16 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/search/1234567890',  'search',          ['word' => '1234567890']],
             ['GET', '/search/12345678901', $not_found,        []],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderFor_match
+     */
+    public function test_dispatch($method, $path, $expected_value, $expected_param)
+    {
+        $actual = Router::dispatch(self::$route_map, $method, $path);
+
+        $this->assertEquals($expected_value, $actual->value);
+        $this->assertEquals(self::$router->match($method, $path), $actual);
     }
 }
