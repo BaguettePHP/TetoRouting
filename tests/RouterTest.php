@@ -14,7 +14,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             'root' => ['GET', '/',        'index'],
             ['GET', '/:user',             'show_user',       ['user' => $re_user]],
             ['GET', '/:user/works',       'show_user_works', ['user' => $re_user]],
-            ['GET', '/:user/works/:id',   'show_user_work',  ['user' => $re_user, 'id' => $re_id]],
+            'user_work' => ['GET', '/:user/works/:id',   'show_user_work',  ['user' => $re_user, 'id' => $re_id]],
             ['GET', '/et al.',            'etal'],
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
@@ -98,5 +98,48 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected_value, $actual->value);
         $this->assertEquals(self::$router->match($method, $path), $actual);
+    }
+
+    /**
+     * @dataProvider dataProviderFor_makePath
+     */
+    public function test_makePath($expected, $name, array $param, $strict)
+    {
+        $this->assertEquals($expected, self::$router->makePath($name, $param, $strict));
+    }
+
+    public function dataProviderFor_makePath()
+    {
+        return [
+            ['/',     'root', [],                 'strict' => false],
+            ['/',     'root', ['dummy' => 'val'], 'strict' => false],
+            ['/',     'root', [],                 'strict' => true],
+            ['/data', 'data', [],                 'strict' => false],
+            ['/data', 'data', [],                 'strict' => true],
+            ['/@john/works/12', 'user_work', ['user' => '@john', 'id' => 12], 'strict' => false],
+            ['/@john/works/12', 'user_work', ['user' => '@john', 'id' => 12], 'strict' => true],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderFor_makePath_throws_DomainException
+     */
+    public function test_makePath_throws_DomainException($expected, $name, array $param)
+    {
+        $this->setExpectedException('\DomainException', $expected);
+        $this->assertEquals($expected, self::$router->makePath($name, $param, true));
+    }
+
+    public function dataProviderFor_makePath_throws_DomainException()
+    {
+        return [
+            ['unnecessary parameters', 'root',      ['dummy' => 'val']],
+            ['unnecessary parameters', 'data',      ['dummy' => 'val']],
+            ['Error',                  'user_work', [] ],
+            ['Error',                  'user_work', ['user'  => 'john'] ],
+            ['Error',                  'user_work', ['user'  => '@john'] ],
+            ['unnecessary parameters', 'user_work', ['dummy' => 'val']],
+            ['unnecessary parameters', 'user_work', ['user'  => '@john', 'id' => 12, 'dummy' => 'val']],
+        ];
     }
 }
