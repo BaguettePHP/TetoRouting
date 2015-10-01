@@ -210,10 +210,10 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderFor_test_makePath
      */
-    public function test_makePath($expected, $split_path, $param_pos, $param)
+    public function test_makePath($expected, $split_path, $param_pos, $param, $ext, $strict)
     {
         $action = new Action(['GET'], $split_path, $param_pos, [], "returns!");
-        $actual = $action->makePath($param);
+        $actual = $action->makePath($param, $ext, $strict);
 
         $this->assertEquals($expected, $actual);
     }
@@ -226,6 +226,8 @@ final class ActionTest extends \PHPUnit_Framework_TestCase
                 'split_path' => ['a', '(^\d+$)', 'd'],
                 'param_pos'  => [1 => 'b'],
                 'param'      => ['b' => 12],
+                'ext'        => null,
+                'strict'     => false,
             ],
         ];
     }

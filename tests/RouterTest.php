@@ -19,6 +19,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['GET', '/articles',          'article_index'],
             ['GET', '/articles/:id',      'article_page',    ['id' => $re_id]],
             'data' => ['GET', '/data',    'data_json',        '?ext' => ['', 'json']],
+            'info' => ['GET', '/info',    'info_feed',        '?ext' => ['', 'rss', 'rdf', 'xml']],
             ['GET|POST', '/search/:word', 'search',          ['word' => '/^.{1,10}$/']],
              '#404' => 'Not Found!'
         ];
@@ -111,11 +112,12 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
     public function dataProviderFor_makePath()
     {
         return [
-            ['/',     'root', [],                 'strict' => false],
-            ['/',     'root', ['dummy' => 'val'], 'strict' => false],
-            ['/',     'root', [],                 'strict' => true],
-            ['/data', 'data', [],                 'strict' => false],
-            ['/data', 'data', [],                 'strict' => true],
+            ['/',     'root', [],                    'strict' => false],
+            ['/',     'root', ['dummy' => 'val'],    'strict' => false],
+            ['/',     'root', [],                    'strict' => true],
+            ['/data', 'data', [],                    'strict' => false],
+            ['/data', 'data', [],                    'strict' => true],
+            ['/info.rss', 'info', ['?ext' => 'rss'], 'strict' => true],
             ['/@john/works/12', 'user_work', ['user' => '@john', 'id' => 12], 'strict' => false],
             ['/@john/works/12', 'user_work', ['user' => '@john', 'id' => 12], 'strict' => true],
         ];

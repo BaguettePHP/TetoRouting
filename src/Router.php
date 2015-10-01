@@ -157,6 +157,13 @@ class Router
             throw new \OutOfRangeException("\"$name\" is not exists.");
         }
 
-        return $this->named_actions[$name]->makePath($param, $strict);
+        if (isset($param[self::_ext])) {
+            $ext = $param[self::_ext];
+            unset($param[self::_ext]);
+        } else {
+            $ext = null;
+        }
+
+        return $this->named_actions[$name]->makePath($param, $ext, $strict);
     }
 }
