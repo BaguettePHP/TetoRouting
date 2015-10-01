@@ -127,12 +127,13 @@ class Action
 
     /**
      * @param  array   $param
+     * @param  string  $ext
      * @param  boolean $strict
      * @return string
      */
-    public function makePath(array $param, $strict = false)
+    public function makePath(array $param, $ext, $strict)
     {
-        $path = "";
+        $path = '';
 
         if ($strict) {
             $got_keys = array_keys($param);
@@ -158,6 +159,10 @@ class Action
             }
 
             $path .= '/' . $param[$name];
+        }
+
+        if ($ext !== null && $ext !== '') {
+            $path .= '.' . $ext;
         }
 
         return ($path === '') ? '/' : $path;
