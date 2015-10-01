@@ -43,13 +43,13 @@ $action = $router->match($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
 
 ```php
-//    Method      Path           ReturnValue  Param => RegExp     extension (format)
+//   Name         Method      Path            ReturnValue  Param => RegExp     extension (file format)
 $routing_map = [
     'root'    => ['GET',      '/',            'index'  ],
     'search'  => ['GET|POST', '/search',      'search' ],
     'article' => ['GET',      '/article/:id', 'article',  ['id' => '/(\d+)/'], '?ext' => ['', 'txt']],
     'info'    => ['GET',      '/info',        'feed' ,                         '?ext' => ['rss', 'rdf', 'xml']],
-     '#404'       =>             'not_found' // special
+    '#404'    =>                              'not_found' // special
 ];
 
 $router = new \Teto\Routing\Router($routing_map);
