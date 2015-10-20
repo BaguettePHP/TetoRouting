@@ -29,16 +29,16 @@ Routing DSL
 $routing_map = [
     ['GET',      '/',            'index'  ],
     ['GET|POST', '/search',      'search' ],
-    ['GET',      '/article/:id', 'article',  ['id' => '/(\d+)/'], '?ext' => ['', 'txt']],
-    ['GET',      '/info',        'feed' ,                         '?ext' => ['rss', 'rdf', 'xml']],
+    ['GET',      '/article/:id', 'article',  ['id' => '/\A(\d+)\z/'], '?ext' => ['', 'txt']],
+    ['GET',      '/info',        'feed' ,                             '?ext' => ['rss', 'rdf', 'xml']],
      '#404'       =>             'not_found' // special
 ];
 
-$action = \Teto\Routing\Router::dispatch($routing_map, $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
-
-// Another way
 $router = new \Teto\Routing\Router($routing_map);
 $action = $router->match($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+
+// Shorthand (but, do not use reverse routing)
+$action = \Teto\Routing\Router::dispatch($routing_map, $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 ```
 
 ### Reverse routing
