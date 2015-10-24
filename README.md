@@ -1,12 +1,12 @@
 Teto Routing
 ============
 
-[![Join the chat at https://gitter.im/BaguettePHP/php-simple-routing](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BaguettePHP/php-simple-routing?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/BaguettePHP/simple-routing](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BaguettePHP/simple-routing?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Package version](http://img.shields.io/packagist/v/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![Build Status](https://travis-ci.org/BaguettePHP/php-simple-routing.svg?branch=master)](https://travis-ci.org/BaguettePHP/php-simple-routing)
+[![Build Status](https://travis-ci.org/BaguettePHP/simple-routing.svg?branch=master)](https://travis-ci.org/BaguettePHP/simple-routing)
 [![Packagist](http://img.shields.io/packagist/dt/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![Coverage Status](https://coveralls.io/repos/BaguettePHP/php-simple-routing/badge.svg)](https://coveralls.io/r/BaguettePHP/php-simple-routing)
+[![Coverage Status](https://coveralls.io/repos/BaguettePHP/simple-routing/badge.svg)](https://coveralls.io/r/BaguettePHP/simple-routing)
 
 Simple routing for WebApp
 
@@ -43,14 +43,13 @@ $action = \Teto\Routing\Router::dispatch($routing_map, $_SERVER['REQUEST_METHOD'
 
 ### Reverse routing
 
-
 ```php
 //   Name         Method      Path            ReturnValue  Param => RegExp     extension (file format)
 $routing_map = [
     'root'    => ['GET',      '/',            'index'  ],
     'search'  => ['GET|POST', '/search',      'search' ],
-    'article' => ['GET',      '/article/:id', 'article',  ['id' => '/(\d+)/'], '?ext' => ['', 'txt']],
-    'info'    => ['GET',      '/info',        'feed' ,                         '?ext' => ['rss', 'rdf', 'xml']],
+    'article' => ['GET',      '/article/:id', 'article',  ['id' => '/\A(\d+)\z/'], '?ext' => ['', 'txt']],
+    'info'    => ['GET',      '/info',        'feed' ,                             '?ext' => ['rss', 'rdf', 'xml']],
     '#404'    =>                              'not_found' // special
 ];
 
