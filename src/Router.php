@@ -24,6 +24,11 @@ class Router
     /** @var array */
     public $error_action = [];
 
+    public function __set($name, $value)
+    {
+        throw new \OutOfRangeException("Unexpected key:'$name'");
+    }
+
     /**
      * @param  array  $route_map
      * @param  string $method
