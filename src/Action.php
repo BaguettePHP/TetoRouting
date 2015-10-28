@@ -19,20 +19,23 @@ namespace Teto\Routing;
  */
 class Action
 {
-    use \Teto\Object\TypedProperty;
-
+    use \Teto\Object\TypeAssert;
     const WILDCARD = '*';
 
-    private static $property_types = [
-        'methods'     => 'enum[]',
-        'split_path'  => 'string[]',
-        'param_pos'   => 'array',
-        'value'       => 'mixed',
-        'param'       => 'array',
-        'extension'   => 'string',
-        'is_wildcard' => 'bool',
-        'available_extensions' => 'array',
-    ];
+    /** @var string[] */
+    public $methods;
+    /** @var string[] */
+    public $split_path;
+    /** @var array */
+    public $param_pos;
+    /** @var mixed */
+    public $value;
+    /** @var string */
+    public $extension;
+    /** @var string */
+    public $is_wildcard;
+    /** @var array */
+    public $available_extensions;
 
     private static $enum_values = [
         'methods' => ['GET', 'POST'],
@@ -47,6 +50,8 @@ class Action
      */
     public function __construct(array $methods, array $split_path, array $param_pos, array $available_extensions, $value)
     {
+        static::assertMethods($methods);
+
         $this->methods     = $methods;
         $this->split_path  = $split_path;
         $this->param_pos   = $param_pos;
@@ -223,5 +228,12 @@ class Action
     public static function setHTTPMethod(array $methods)
     {
         self::$enum_values['methods'] = $methods;
+    }
+
+    protected static function assertMethods(array $methods)
+    {
+        foreach ($methods as $m) {
+            self::assertValue('enum', 'methods', $m, false);
+        }
     }
 }
