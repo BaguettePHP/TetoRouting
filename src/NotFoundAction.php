@@ -19,16 +19,8 @@ namespace Teto\Routing;
  */
 class NotFoundAction extends Action
 {
-    use \Teto\Object\TypedProperty;
-
-    private static $property_types = [
-        'methods'     => 'string[]', // expects any HTTP-method
-        'split_path'  => 'string[]',
-        'param_pos'   => 'array',
-        'value'       => 'mixed',
-        'param'       => 'array',
-        'extension'   => 'string',
-        'is_wildcard' => 'bool',
-        'available_extensions' => 'array',
-    ];
+    protected static function assertMethods(array $methods)
+    {
+        // thorough
+    }
 }

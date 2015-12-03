@@ -12,17 +12,26 @@ namespace Teto\Routing;
 class Router
 {
     const _ext = '?ext';
+    const _sep = "\x1E";
     const GET  = 'GET';
     const HEAD = 'HEAD';
 
     /** @var \Teto\Routing\Action[] */
-    public $actions = [];
+    public $variable_actions = [];
+
+    /** @var \Teto\Routing\Action[] */
+    public $fixed_actions = [];
 
     /** @var \Teto\Routing\Action[] */
     public $named_actions = [];
 
     /** @var array */
     public $error_action = [];
+
+    public function __set($name, $value)
+    {
+        throw new \OutOfRangeException("Unexpected key:'$name'");
+    }
 
     /**
      * @param  array  $route_map
@@ -55,7 +64,7 @@ class Router
     public function match($method, $path)
     {
         if ($method === self::HEAD) { $method = self::GET; }
-        if (strpos($path, '//') !== false) {
+        if (strpos($path, '//') !== false || strpos($path, self::_sep) !== false) {
             return $this->getNotFoundAction($method, $path);
         }
 
@@ -75,13 +84,19 @@ class Router
             }
         }
 
-        if (empty($this->actions[$count])) {
-            return $this->getNotFoundAction($method, $path, $ext);
-        }
-
-        foreach ($this->actions[$count] as $action) {
+        $fixed_key = implode(self::_sep, $split_path);
+        if (isset($this->fixed_actions[$fixed_key])) {
+            $action = $this->fixed_actions[$fixed_key];
             if ($matched = $action->match($method, $split_path, $ext)) {
                 return $matched;
+            }
+        }
+
+        if (isset($this->variable_actions[$count])) {
+            foreach ($this->variable_actions[$count] as $action) {
+                if ($matched = $action->match($method, $split_path, $ext)) {
+                    return $matched;
+                }
             }
         }
 
@@ -124,13 +139,17 @@ class Router
         $value  = array_shift($action_tuple) ?: true ;
         $params = array_shift($action_tuple) ?: [] ;
         $action = Action::create($method, $path, $value, $ext, $params);
-        $count  = count($action->split_path);
 
-        if (!isset($this->actions[$count])) {
-            $this->actions[$count] = [];
+        if ($action->param_pos) {
+            $count  = count($action->split_path);
+            if (!isset($this->variable_actions[$count])) {
+                $this->variable_actions[$count] = [];
+            }
+            $this->variable_actions[$count][] = $action;
+        } else {
+            $fixed_key = implode(self::_sep, $action->split_path);
+            $this->fixed_actions[$fixed_key] = $action;
         }
-
-        $this->actions[$count][] = $action;
 
         if (!is_numeric($key)) {
             $this->named_actions[$key] = $action;
