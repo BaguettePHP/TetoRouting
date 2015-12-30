@@ -13,8 +13,6 @@ class Router
 {
     const _ext = '?ext';
     const _sep = "\x1E";
-    const GET  = 'GET';
-    const HEAD = 'HEAD';
 
     /** @var \Teto\Routing\Action[] */
     public $variable_actions = [];
@@ -63,7 +61,7 @@ class Router
      */
     public function match($method, $path)
     {
-        if ($method === self::HEAD) { $method = self::GET; }
+        if ($method === 'HEAD') { $method = 'GET'; }
         if (strpos($path, '//') !== false || strpos($path, self::_sep) !== false) {
             return $this->getNotFoundAction($method, $path);
         }
