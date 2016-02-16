@@ -61,6 +61,19 @@ $router->makePath('article', ['id' => 123]);     //=> '/article/123'
 $router->makePath('info',    ['?ext' => 'rss']); //=> '/info.rss'
 ```
 
+### Tips
+
+```php
+$re_num_id    = '/\A(\d+)\z/';
+$re_user_name = '/\A@([a-z]+)\z/';
+
+$routing_map = [
+    'root'    => ['GET', '/',            'index'  ],
+    'search'  => ['GET', '/search',      'search' ],
+    'article' => ['GET', '/article/:id', 'article',  ['id' => $re_num_id], '?ext' => ['', 'txt']],
+    '#404'    =>                         'not_found' // special
+];
+```
 
 Related Libraries
 -----------------
