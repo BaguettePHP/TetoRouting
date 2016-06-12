@@ -29,6 +29,7 @@
         }
     },
     "require": {
+        "php": "5.3.*",
         "zonuexe/objectsystem": "~0.5.1"
     }
 }
