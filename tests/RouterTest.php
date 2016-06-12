@@ -144,4 +144,36 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
             ['unnecessary parameters', 'user_work', ['user'  => '@john', 'id' => 12, 'dummy' => 'val']],
         ];
     }
+
+    public function test_buildMethodConstruction()
+    {
+        $expected = self::$route_map;
+        $actual = new Router();
+
+        foreach ($expected as $k => $args) {
+            if (is_array($args)) {
+                // Remove named actions
+                if (!is_numeric($k)) {
+                    unset($expected[$k]);
+                    continue;
+                }
+
+                foreach ($args as $l => $_) {
+                    // Remove ext patterns
+                    if (!is_numeric($l)) {
+                        unset($expected[$k]);
+                        continue 2;
+                    }
+                }
+                $method = array_shift($args);
+            } else {
+                $method = '_' . substr($k, 1);
+                $args = array($args);
+            }
+
+            call_user_func_array(array($actual, $method), $args);
+        }
+
+        $this->assertEquals(new Router($expected), $actual);
+    }
 }

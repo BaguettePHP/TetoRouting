@@ -8,6 +8,10 @@ namespace Teto\Routing;
  * @author     USAMI Kenta <tadsan@zonu.me>
  * @copyright  2015 USAMI Kenta
  * @license    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * @method Router get(string $path, mixed $return_value, array $regexp_patterns = array()) Add GET method routing action
+ * @method Router post(string $path, mixed $return_value, array $regexp_patterns = array()) Add POST method routing action
+ * @method Router _404(mixed $return_value) Set special action for NotFound (404)
  */
 class Router
 {
@@ -45,12 +49,26 @@ class Router
     /**
      * @param array $route_map
      */
-    public function __construct(array $route_map)
+    public function __construct(array $route_map = array())
     {
         foreach ($route_map as $k => $m) {
             ($k !== '#404')
                 ? $this->setAction($k, $m)
                 : $this->setSpecialAction($k, $m);
+        }
+    }
+
+    /**
+     * @param string  $name
+     * @param mixed[] $arguments
+     */
+    public function __call($name, $args)
+    {
+        if (strpos($name, '_') === 0) {
+            $this->setSpecialAction(str_replace('_', '#', $name), array_shift($args));
+        } else {
+            $args = array_merge(array(strtoupper($name)), $args);
+            $this->setAction(0, $args);
         }
     }
 
