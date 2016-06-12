@@ -15,16 +15,16 @@ class Router
     const _sep = "\x1E";
 
     /** @var \Teto\Routing\Action[] */
-    public $variable_actions = [];
+    public $variable_actions = array();
 
     /** @var \Teto\Routing\Action[] */
-    public $fixed_actions = [];
+    public $fixed_actions = array();
 
     /** @var \Teto\Routing\Action[] */
-    public $named_actions = [];
+    public $named_actions = array();
 
     /** @var array */
-    public $error_action = [];
+    public $error_action = array();
 
     public function __set($name, $value)
     {
@@ -111,10 +111,10 @@ class Router
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
         return new NotFoundAction(
-            [$method],
+            array($method),
             $split_path,
-            [],
-            [],
+            array(),
+            array(),
             $this->error_action['#404']
         );
     }
@@ -129,19 +129,19 @@ class Router
             $ext = $action_tuple[self::_ext];
             unset($action_tuple[self::_ext]);
         } else {
-            $ext = [];
+            $ext = array();
         }
 
         $method = array_shift($action_tuple);
         $path   = array_shift($action_tuple);
         $value  = array_shift($action_tuple) ?: true ;
-        $params = array_shift($action_tuple) ?: [] ;
+        $params = array_shift($action_tuple) ?: array() ;
         $action = Action::create($method, $path, $value, $ext, $params);
 
         if ($action->param_pos) {
             $count  = count($action->split_path);
             if (!isset($this->variable_actions[$count])) {
-                $this->variable_actions[$count] = [];
+                $this->variable_actions[$count] = array();
             }
             $this->variable_actions[$count][] = $action;
         } else {
@@ -168,7 +168,7 @@ class Router
      * @param array   $param
      * @param boolean $strict
      */
-    public function makePath($name, array $param = [], $strict = false)
+    public function makePath($name, array $param = array(), $strict = false)
     {
         if (empty($this->named_actions[$name])) {
             throw new \OutOfRangeException("\"$name\" is not exists.");

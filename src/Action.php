@@ -38,7 +38,7 @@ class Action
     public $available_extensions;
 
     private static $enum_values = [
-        'methods' => ['GET', 'POST'],
+        'methods' => array('GET', 'POST'),
     ];
 
     /**
@@ -56,10 +56,10 @@ class Action
         $this->split_path  = $split_path;
         $this->param_pos   = $param_pos;
         $this->value       = $value;
-        $this->param       = [];
+        $this->param       = array();
         $this->is_wildcard = in_array(self::WILDCARD, $available_extensions, true);
         $this->available_extensions
-            = empty($available_extensions) ? ['' => true]
+            = empty($available_extensions) ? array('' => true)
             : array_fill_keys($available_extensions, true) ;
     }
 
@@ -78,7 +78,7 @@ class Action
             return false;
         }
 
-        if ($this->available_extensions === ['' => true]) {
+        if ($this->available_extensions === array('' => true)) {
             if (strlen($extension) > 0) {
                 $request_path[$request_len - 1] .= '.' . $extension;
             }
@@ -100,7 +100,7 @@ class Action
 
             if (isset($this->param_pos[$i])) {
                 if (!preg_match($p, $q, $matches)) {
-                    $this->param = [];
+                    $this->param = array();
                     return false;
                 }
 
@@ -109,7 +109,7 @@ class Action
                 $param_tmp[$k] = isset($matches[1]) ? $matches[1] : $matches[0];
                 $this->param = $param_tmp;
             } elseif ($q !== $p) {
-                $this->param = [];
+                $this->param = array();
                 return false;
             }
         }
@@ -145,7 +145,7 @@ class Action
             $expects  = array_values($this->param_pos);
             $diff     = array_diff($got_keys, $expects);
 
-            if ($diff !== []) {
+            if ($diff !== array()) {
                 $json = json_encode(array_values($diff));
                 throw new \DomainException('unnecessary parameters: ' . $json);
             }
@@ -181,7 +181,7 @@ class Action
      * @param  array    $params
      * @return Action new instance object
      */
-    public static function create($method_str, $path, $value, array $ext, array $params = [])
+    public static function create($method_str, $path, $value, array $ext, array $params = array())
     {
         $methods = explode('|', $method_str);
         list($split_path, $param_pos)
@@ -199,10 +199,10 @@ class Action
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
-        if (!$params) { return [$split_path, []]; }
+        if (!$params) { return array($split_path, array()); }
 
-        $new_split_path = [];
-        $param_pos = [];
+        $new_split_path = array();
+        $param_pos = array();
         foreach ($split_path as $i => $p) {
             $variable = null;
 
@@ -219,7 +219,7 @@ class Action
             }
         }
 
-        return [$new_split_path, $param_pos];
+        return array($new_split_path, $param_pos);
     }
 
     /**
