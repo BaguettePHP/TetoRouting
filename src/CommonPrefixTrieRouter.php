@@ -1,17 +1,24 @@
 <?php
 
+namespace Teto\Routing;
+
 /**
  * 共通接頭辞木構造を連想配列で実装したRouter
+ *
  * @copyright 2015 Yusuke Koashi
  * @license MIT
+ * @see https://gist.github.com/neo-nanikaka/c2e2f7742b311696d50b
+ * @see http://inside.pixiv.net/entry/2015/12/13/145741
  */
 final class CommonPrefixTrieRouter
 {
     const URL_PARAMETER_TYPE_NUM = '[';
     const URL_PARAMETER_TYPE_STRING = ']';
 
-    private static $VALID_STATE_MARK = '>'; // ルーティングが存在するノードにおいて、値はこのキーで引く
-    private static $URL_PARAMETER_NAME = 'name'; // URLパラメータがあった場合、このキーで引く
+    /** @var string ルーティングが存在するノードにおいて、値はこのキーで引く */
+    private static $VALID_STATE_MARK = '>';
+    /** @var string URLパラメータがあった場合、このキーで引く */
+    private static $URL_PARAMETER_NAME = 'name';
 
     /**
      * ルーティング決定のための探索を行う
