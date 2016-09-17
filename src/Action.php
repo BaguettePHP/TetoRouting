@@ -4,10 +4,9 @@ namespace Teto\Routing;
 /**
  * Action object
  *
- * @package    Teto\Routing
- * @author     USAMI Kenta <tadsan@zonu.me>
- * @copyright  2015 USAMI Kenta
- * @license    http://www.apache.org/licenses/LICENSE-2.0
+ * @author    USAMI Kenta <tadsan@zonu.me>
+ * @copyright 2016 BaguetteHQ
+ * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  *
  * @property-read string[] $methods
  * @property-read string[] $split_path
