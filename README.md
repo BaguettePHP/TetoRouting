@@ -2,7 +2,6 @@ Teto Routing - PHP simple router
 ================================
 
 [![Join the chat at https://gitter.im/BaguettePHP/simple-routing](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BaguettePHP/simple-routing?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Package version](http://img.shields.io/packagist/v/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
 [![Build Status](https://travis-ci.org/BaguettePHP/simple-routing.svg?branch=master)](https://travis-ci.org/BaguettePHP/simple-routing)
 [![Packagist](http://img.shields.io/packagist/dt/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
