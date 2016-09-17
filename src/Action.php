@@ -7,14 +7,6 @@ namespace Teto\Routing;
  * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
- *
- * @property-read string[] $methods
- * @property-read string[] $split_path
- * @property-read array    $param_pos
- * @property-read mixed    $value
- * @property-read string   $extension
- * @property-read boolean  $is_wildcard
- * @property-read string[] $available_extensions
  */
 class Action
 {
@@ -29,9 +21,11 @@ class Action
     public $param_pos;
     /** @var mixed */
     public $value;
+    /** @var array */
+    public $param;
     /** @var string */
     public $extension;
-    /** @var string */
+    /** @var bool */
     public $is_wildcard;
     /** @var array */
     public $available_extensions;
@@ -44,7 +38,7 @@ class Action
      * @param string[] $methods
      * @param string[] $split_path
      * @param array    $param_pos
-     * @param string[] $extension
+     * @param string[] $available_extensions
      * @param mixed    $value
      */
     public function __construct(array $methods, array $split_path, array $param_pos, array $available_extensions, $value)
@@ -198,7 +192,7 @@ class Action
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
-        if (!$params) { return [$split_path, []]; }
+        if (empty($params)) { return [$split_path, []]; }
 
         $new_split_path = [];
         $param_pos = [];
