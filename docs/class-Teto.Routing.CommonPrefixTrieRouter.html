@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Teto\Routing\CommonPrefixTrieRouter | Teto Routing</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-Teto.Routing.html">
+						Routing					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-Teto.html">
+						Teto					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Teto.Routing.Action.html">Action</a></li>
+				<li class="active"><a href="class-Teto.Routing.CommonPrefixTrieRouter.html">CommonPrefixTrieRouter</a></li>
+				<li><a href="class-Teto.Routing.NotFoundAction.html">NotFoundAction</a></li>
+				<li><a href="class-Teto.Routing.Router.html">Router</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Teto.Routing.html" title="Summary of Teto\Routing"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class CommonPrefixTrieRouter</h1>
+
+
+	<div class="description">
+	<p>共通接頭辞木構造を連想配列で実装したRouter</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		<b>Final</b><br>
+		
+		<b>Namespace:</b> <a href="namespace-Teto.html">Teto</a>\<a href="namespace-Teto.Routing.html">Routing</a><br>
+		
+
+				<b>Copyright:</b>
+				2015 Yusuke Koashi<br>
+				<b>License:</b>
+				<a href="MIT">MIT</a><br>
+				<b>See:</b>
+				https://gist.github.com/neo-nanikaka/c2e2f7742b311696d50b<br>
+				<b>See:</b>
+				http://inside.pixiv.net/entry/2015/12/13/145741<br>
+			<b>Located at</b> <a href="source-class-Teto.Routing.CommonPrefixTrieRouter.html#5-142" title="Go to source code">CommonPrefixTrieRouter.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="search" id="_search">
+
+		<td class="attributes"><code>
+			 public static
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_search">#</a>
+		<code><a href="source-class-Teto.Routing.CommonPrefixTrieRouter.html#23-73" title="Go to source code">search</a>( <span>array <var>$trie</var></span>, <span>string <var>$request_uri</var></span>, <span>string <var>$http_method</var></span> )</code>
+
+		<div class="description short">
+			<p>ルーティング決定のための探索を行う</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>ルーティング決定のための探索を行う</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$trie</var></dt>
+					<dd>指定の形式の連想配列</dd>
+					<dt><var>$request_uri</var></dt>
+					<dd>解析したいURL</dd>
+					<dt><var>$http_method</var></dt>
+					<dd>HTTPメソッド</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br><p>[
+  'value'  => ルーティングの結果。値はなんでもよい
+  'params' => [
+    'user_id' => '12345', // URLパラメータがあればその値を連想配列にする
+  ]
+]</p>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="trieConstruction" id="_trieConstruction">
+
+		<td class="attributes"><code>
+			 public static
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_trieConstruction">#</a>
+		<code><a href="source-class-Teto.Routing.CommonPrefixTrieRouter.html#75-141" title="Go to source code">trieConstruction</a>( <span>array <var>$conf</var></span> )</code>
+
+		<div class="description short">
+			<p>Trie木を表現した連想配列を構築する</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Trie木を表現した連想配列を構築する</p>
+
+<p>動的に木を組み立てるために参照 &amp; を多用している</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$conf</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="URL_PARAMETER_TYPE_NUM" id="URL_PARAMETER_TYPE_NUM">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-Teto.Routing.CommonPrefixTrieRouter.html#15" title="Go to source code"><b>URL_PARAMETER_TYPE_NUM</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#URL_PARAMETER_TYPE_NUM" class="anchor">#</a>
+				<code><span class="php-quote">'['</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="URL_PARAMETER_TYPE_STRING" id="URL_PARAMETER_TYPE_STRING">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-Teto.Routing.CommonPrefixTrieRouter.html#16" title="Go to source code"><b>URL_PARAMETER_TYPE_STRING</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#URL_PARAMETER_TYPE_STRING" class="anchor">#</a>
+				<code><span class="php-quote">']'</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Teto Routing API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>

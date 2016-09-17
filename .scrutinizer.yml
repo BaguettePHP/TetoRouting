@@ -8,6 +8,7 @@ filter:
     - tests/*
     - build/*
     - vendor/*
+    - docs/*
 
 build:
 

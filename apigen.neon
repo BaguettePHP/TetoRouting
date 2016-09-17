@@ -3,5 +3,5 @@ destination: docs
 main: Teto Routing
 title: Teto Routing
 download: no
-php: yes
-tree: yes
+php: no
+tree: no

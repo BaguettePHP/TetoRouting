@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Teto\Routing\Action | Teto Routing</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-Teto.Routing.html">
+						Routing					</a>
+
+						</li>
+							</ul></li>
+				<li class="active">
+					<a href="namespace-Teto.html">
+						Teto					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Teto.Routing.Action.html">Action</a></li>
+				<li><a href="class-Teto.Routing.CommonPrefixTrieRouter.html">CommonPrefixTrieRouter</a></li>
+				<li><a href="class-Teto.Routing.NotFoundAction.html">NotFoundAction</a></li>
+				<li><a href="class-Teto.Routing.Router.html">Router</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Teto.Routing.html" title="Summary of Teto\Routing"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Action</h1>
+
+
+	<div class="description">
+	<p>Action object</p>
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+<b><span>Teto\Routing\Action</span></b>			
+			
+			 uses 
+					Teto\Object\TypeAssert (not available)
+
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-Teto.Routing.NotFoundAction.html">Teto\Routing\NotFoundAction</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Teto.html">Teto</a>\<a href="namespace-Teto.Routing.html">Routing</a><br>
+		
+
+				<b>Copyright:</b>
+				2016 BaguetteHQ<br>
+				<b>License:</b>
+				<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a><br>
+				<b>Author:</b>
+				USAMI Kenta <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;:&#x74;&#97;&#100;&#x73;&#x61;&#110;&#64;&#x7a;&#111;&#110;&#x75;&#x2e;&#109;&#101;">&#x74;&#97;&#100;&#x73;&#x61;&#110;&#64;&#x7a;&#111;&#110;&#x75;&#x2e;&#109;&#101;</a><br>
+			<b>Located at</b> <a href="source-class-Teto.Routing.Action.html#4-238" title="Go to source code">Action.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#43-63" title="Go to source code">__construct</a>( <span>array <var>$methods</var></span>, <span>array <var>$split_path</var></span>, <span>array <var>$param_pos</var></span>, <span>array <var>$available_extensions</var></span>, <span>mixed <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$methods</var></dt>
+					<dd></dd>
+					<dt><var>$split_path</var></dt>
+					<dd></dd>
+					<dt><var>$param_pos</var></dt>
+					<dd></dd>
+					<dt><var>$available_extensions</var></dt>
+					<dd>$extension</dd>
+					<dt><var>$value</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="match" id="_match">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Teto.Routing.Action.html">Teto\Routing\Action</a></code>|false
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_match">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#65-117" title="Go to source code">match</a>( <span>string <var>$request_method</var></span>, <span>array <var>$request_path</var></span>, <span>string <var>$extension</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$request_method</var></dt>
+					<dd></dd>
+					<dt><var>$request_path</var></dt>
+					<dd></dd>
+					<dt><var>$extension</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Teto.Routing.Action.html">Teto\Routing\Action</a></code>|false
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="matchExtension" id="_matchExtension">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_matchExtension">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#119-130" title="Go to source code">matchExtension</a>( <span>string <var>$extension</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$extension</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="makePath" id="_makePath">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_makePath">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#132-173" title="Go to source code">makePath</a>( <span>array <var>$param</var></span>, <span>string <var>$ext</var></span>, <span>boolean <var>$strict</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$param</var></dt>
+					<dd></dd>
+					<dt><var>$ext</var></dt>
+					<dd></dd>
+					<dt><var>$strict</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="create" id="_create">
+
+		<td class="attributes"><code>
+			 public static
+
+			<code><a href="class-Teto.Routing.Action.html">Teto\Routing\Action</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_create">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#175-190" title="Go to source code">create</a>( <span>string <var>$method_str</var></span>, <span>string <var>$path</var></span>, <span>mixed <var>$value</var></span>, <span>array <var>$ext</var></span>, <span>array <var>$params</var> = []</span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$method_str</var></dt>
+					<dd>ex. "GET|POST"</dd>
+					<dt><var>$path</var></dt>
+					<dd>ex. "/dir_name/path"</dd>
+					<dt><var>$value</var></dt>
+					<dd></dd>
+					<dt><var>$ext</var></dt>
+					<dd></dd>
+					<dt><var>$params</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Teto.Routing.Action.html">Teto\Routing\Action</a></code><br>new instance object
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parsePathParam" id="_parsePathParam">
+
+		<td class="attributes"><code>
+			 public static
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_parsePathParam">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#192-222" title="Go to source code">parsePathParam</a>( <span>string <var>$path</var></span>, <span>array <var>$params</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd></dd>
+					<dt><var>$params</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array<br>[$split_path, $param_pos]
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setHTTPMethod" id="_setHTTPMethod">
+
+		<td class="attributes"><code>
+			 public static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setHTTPMethod">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#224-230" title="Go to source code">setHTTPMethod</a>( <span>array <var>$methods</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$methods</var></dt>
+					<dd>ex. ['GET', 'POST', 'PUT', 'DELETE']</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="assertMethods" id="_assertMethods">
+
+		<td class="attributes"><code>
+			 protected static
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_assertMethods">#</a>
+		<code><a href="source-class-Teto.Routing.Action.html#232-237" title="Go to source code">assertMethods</a>( <span>array <var>$methods</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary constants" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="WILDCARD" id="WILDCARD">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name">
+			<code>
+				<a href="source-class-Teto.Routing.Action.html#22" title="Go to source code"><b>WILDCARD</b></a>
+			</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#WILDCARD" class="anchor">#</a>
+				<code><span class="php-quote">'*'</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="methods" id="$methods">
+		<td class="attributes"><code>
+			public  
+			string[]
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#24-25" title="Go to source code"><var>$methods</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$methods" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="split_path" id="$split_path">
+		<td class="attributes"><code>
+			public  
+			string[]
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#26-27" title="Go to source code"><var>$split_path</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$split_path" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="param_pos" id="$param_pos">
+		<td class="attributes"><code>
+			public  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#28-29" title="Go to source code"><var>$param_pos</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$param_pos" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="value" id="$value">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#30-31" title="Go to source code"><var>$value</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$value" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="extension" id="$extension">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#32-33" title="Go to source code"><var>$extension</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$extension" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="is_wildcard" id="$is_wildcard">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#34-35" title="Go to source code"><var>$is_wildcard</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$is_wildcard" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="available_extensions" id="$available_extensions">
+		<td class="attributes"><code>
+			public  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#36-37" title="Go to source code"><var>$available_extensions</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$available_extensions" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+	<table class="summary properties" id="magicProperties">
+	<caption>Magic properties summary</caption>
+	<tr data-order="param_pos" id="m$param_pos">
+		<td class="attributes"><code>
+			public  read-only
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#13" title="Go to source code"><var>$param_pos</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="value" id="m$value">
+		<td class="attributes"><code>
+			public  read-only
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#14" title="Go to source code"><var>$value</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="extension" id="m$extension">
+		<td class="attributes"><code>
+			public  read-only
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#15" title="Go to source code"><var>$extension</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	<tr data-order="is_wildcard" id="m$is_wildcard">
+		<td class="attributes"><code>
+			public  read-only
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Teto.Routing.Action.html#16" title="Go to source code"><var>$is_wildcard</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		Teto Routing API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
