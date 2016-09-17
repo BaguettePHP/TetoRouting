@@ -99,7 +99,7 @@ final class CommonPrefixTrieRouter
             $i = 0;
             while ($i < $path_length) {
                 if ($path[$i++] !== '/') {
-                    throw new Exception(sprintf("不正なパスが設定されています %s", $path));
+                    throw new \Exception(sprintf("不正なパスが設定されています %s", $path));
                 }
                 $partial_path = '/';
                 while ($i < $path_length && $path[$i] !== '/') {
@@ -113,7 +113,7 @@ final class CommonPrefixTrieRouter
                     $is_url_parameter = true;
                     $url_param_name = substr($partial_path, 2);
                     if (!isset($param_mapping[$url_param_name])) {
-                        throw new Exception(sprintf("URLパラメータ :%s に対する設定が足りません", $url_param_name));
+                        throw new \Exception(sprintf("URLパラメータ :%s に対する設定が足りません", $url_param_name));
                     }
                     $partial_path = $param_mapping[$url_param_name];
                 }
@@ -126,13 +126,13 @@ final class CommonPrefixTrieRouter
                     }
                 } else {
                     if ($is_url_parameter && $node[$partial_path][self::$URL_PARAMETER_NAME] !== $url_param_name) {
-                        throw new Exception(sprintf("URLパラメータに別名をつけようとしています %s (:%s, :%s)", $path, $url_param_name, $node[$partial_path][self::$URL_PARAMETER_NAME]));
+                        throw new \Exception(sprintf("URLパラメータに別名をつけようとしています %s (:%s, :%s)", $path, $url_param_name, $node[$partial_path][self::$URL_PARAMETER_NAME]));
                     }
                 }
                 $node = &$node[$partial_path];
             }
             if (isset($node[self::$VALID_STATE_MARK])) {
-                throw new Exception(sprintf("重複したルーティングルールがあります %s", $path));
+                throw new \Exception(sprintf("重複したルーティングルールがあります %s", $path));
             }
             $node[self::$VALID_STATE_MARK] = $value;
         }
