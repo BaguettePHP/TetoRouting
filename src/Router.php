@@ -98,7 +98,7 @@ class Router
             }
         }
 
-        return $this->getNotFoundAction($method, $path, $ext);
+        return $this->getNotFoundAction($method, $path);
     }
 
     /**
@@ -138,7 +138,7 @@ class Router
         $params = array_shift($action_tuple) ?: [] ;
         $action = Action::create($method, $path, $value, $ext, $params);
 
-        if ($action->param_pos) {
+        if (!empty($action->param_pos)) {
             $count  = count($action->split_path);
             if (!isset($this->variable_actions[$count])) {
                 $this->variable_actions[$count] = [];
