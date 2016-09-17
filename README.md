@@ -90,10 +90,10 @@ You can get these libraries from Packagist.
 Copyright
 ---------
 
-see `./LICENSE`.
+**Teto\\Routing** is licensed under [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). See `./LICENSE`.
 
-    Simple routing for WebApp
-    Copyright (c) 2015 USAMI Kenta <tadsan@zonu.me>
+    Teto Routing - PHP simple router for WebApp
+    Copyright (c) 2016 Baguette HQ / USAMI Kenta <tadsan@zonu.me>
 
 Teto Kasane
 -----------
