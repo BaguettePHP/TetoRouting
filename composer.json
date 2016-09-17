@@ -28,5 +28,9 @@
         "psr-4": {
             "Teto\\Routing\\": "tests/"
         }
+    },
+    "scripts": {
+        "doc": "apigen generate",
+        "test": "phpunit"
     }
 }
