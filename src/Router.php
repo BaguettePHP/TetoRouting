@@ -17,7 +17,7 @@ class Router
     /** @var \Teto\Routing\Action[] */
     public $variable_actions = [];
 
-    /** @var \Teto\Routing\Action[] */
+    /** @var \Teto\Routing\Action[][] */
     public $fixed_actions = [];
 
     /** @var \Teto\Routing\Action[] */
@@ -83,8 +83,8 @@ class Router
         }
 
         $fixed_key = implode(self::_sep, $split_path);
-        if (isset($this->fixed_actions[$fixed_key])) {
-            $action = $this->fixed_actions[$fixed_key];
+        if (isset($this->fixed_actions[$fixed_key][$method])) {
+            $action = $this->fixed_actions[$fixed_key][$method];
             if ($matched = $action->match($method, $split_path, $ext)) {
                 return $matched;
             }
@@ -146,7 +146,9 @@ class Router
             $this->variable_actions[$count][] = $action;
         } else {
             $fixed_key = implode(self::_sep, $action->split_path);
-            $this->fixed_actions[$fixed_key] = $action;
+            foreach ($action->methods as $m) {
+                $this->fixed_actions[$fixed_key][$m] = $action;
+            }
         }
 
         if (!is_numeric($key)) {
