@@ -12,6 +12,7 @@
         "router"
     ],
     "require": {
+        "php": ">=5.6",
         "zonuexe/objectsystem": "~0.5|~0.6"
     },
     "require-dev": {

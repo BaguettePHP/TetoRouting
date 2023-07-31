@@ -2,6 +2,11 @@
 
 namespace Teto\Routing;
 
+use function count;
+use function explode;
+use function preg_replace;
+use function strlen;
+
 /**
  * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
@@ -44,10 +49,9 @@ final class RouterTest extends TestCase
         $actual = self::$router->match($method, $path);
         $split_path = (strlen($path) === 1) ? [] : explode('/', substr($path, 1));
 
-        $this->assertInstanceOf('\Teto\Routing\Action', $actual);
         $this->assertEquals($expected_value, $actual->value);
         $this->assertEquals($expected_param, $actual->param);
-        $this->assertEquals(count($split_path), count($actual->split_path));
+        $this->assertCount(count($split_path), $actual->split_path);
 
         if ($actual->param_pos) {
             foreach ($actual->split_path as $i => $path) {
