@@ -2,6 +2,11 @@
 
 namespace Teto\Routing;
 
+use function ord;
+use function strlen;
+use function substr;
+use function sprintf;
+
 /**
  * 共通接頭辞木構造を連想配列で実装したRouter
  *

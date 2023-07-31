@@ -2,6 +2,15 @@
 
 namespace Teto\Routing;
 
+use function array_filter;
+use function array_shift;
+use function array_values;
+use function count;
+use function explode;
+use function implode;
+use function is_numeric;
+use function strpos;
+
 /**
  * Router
  *
