@@ -7,13 +7,15 @@ namespace Teto\Routing;
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
-final class RouterTest extends \PHPUnit_Framework_TestCase
+final class RouterTest extends TestCase
 {
     private static $router;
     private static $route_map;
 
-    public static function setUpBeforeClass()
+    public static function set_up_before_class()
     {
+        parent::set_up_before_class();
+
         $re_user = '/^@([-A-Za-z]{3,15})$/';
         $re_id   = '/^\d+$/';
         self::$route_map = [
@@ -136,7 +138,7 @@ final class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_makePath_throws_DomainException($expected, $name, array $param)
     {
-        $this->setExpectedException('\DomainException', $expected);
+        $this->expectException('\DomainException', $expected);
         $this->assertEquals($expected, self::$router->makePath($name, $param, true));
     }
 
