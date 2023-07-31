@@ -7,7 +7,5 @@
 build/ export-ignore
 docs/ export-ignore
 phpdox.xml* export-ignore
-phpunit -crlf -diff
-phpunit export-ignore
 phpunit.xml* export-ignore
 tests/ export-ignore

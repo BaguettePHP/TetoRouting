@@ -7,7 +7,7 @@ namespace Teto\Routing;
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
-final class ActionTest extends \PHPUnit_Framework_TestCase
+final class ActionTest extends TestCase
 {
     /**
      * @dataProvider dataProviderFor_match
