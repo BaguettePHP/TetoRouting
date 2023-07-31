@@ -1,12 +1,9 @@
 Teto Routing - PHP simple router
 ================================
 
-[![Join the chat at https://gitter.im/BaguettePHP/simple-routing](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BaguettePHP/simple-routing?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Package version](http://img.shields.io/packagist/v/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![Build Status](https://travis-ci.org/BaguettePHP/TetoRouting.svg?branch=master)](https://travis-ci.org/BaguettePHP/TetoRouting)
+[![CI build status](https://github.com/BaguettePHP/TetoRouting/actions/workflows/CI.yml/badge.svg)](https://github.com/BaguettePHP/TetoRouting/actions/workflows/CI.yml)
 [![Packagist](http://img.shields.io/packagist/dt/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BaguettePHP/TetoRouting/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BaguettePHP/TetoRouting/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/BaguettePHP/TetoRouting/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/BaguettePHP/TetoRouting/?branch=master)
 
 Simple routing for WebApp
 
