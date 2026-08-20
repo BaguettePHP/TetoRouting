@@ -2,16 +2,18 @@
 
 namespace Teto\Routing;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
+#[CoversClass(Action::class)]
 final class ActionTest extends TestCase
 {
-    /**
-     * @dataProvider dataProviderFor_match
-     */
+    #[DataProvider('dataProviderFor_match')]
     public function test_match(
         $expected,
         $param,
@@ -26,16 +28,16 @@ final class ActionTest extends TestCase
 
         if (isset($param_pos['?ext'])) { unset($param_pos['?ext']); }
 
-        $this->assertSame($expected, $actual !== false);
+        $this->assertSame($expected, $actual !== null);
         $this->assertSame($action->param, $param);
 
         if ($expected) {
-            $this->assertInstanceOf('\Teto\Routing\Action', $actual);
+            $this->assertInstanceOf(Action::class, $actual);
             $this->assertSame($action, $actual);
         }
     }
 
-    public function dataProviderFor_match()
+    public static function dataProviderFor_match()
     {
         return [
             [
@@ -176,15 +178,13 @@ final class ActionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderFor_parsePathParam
-     */
+    #[DataProvider('dataProviderFor_parsePathParam')]
     public function test_parsePathParam($expected, $path, $params)
     {
         $this->assertEquals($expected, Action::parsePathParam($path, $params));
     }
 
-    public function dataProviderFor_parsePathParam()
+    public static function dataProviderFor_parsePathParam()
     {
         return [
             [
@@ -213,9 +213,7 @@ final class ActionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderFor_test_makePath
-     */
+    #[DataProvider('dataProviderFor_test_makePath')]
     public function test_makePath($expected, $split_path, $param_pos, $param, $ext, $strict)
     {
         $action = new Action(['GET'], $split_path, $param_pos, [], "returns!");
@@ -224,7 +222,7 @@ final class ActionTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function dataProviderFor_test_makePath()
+    public static function dataProviderFor_test_makePath()
     {
         return [
             [

@@ -2,24 +2,32 @@
 
 namespace Teto\Routing;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
+
 use function count;
 use function explode;
 use function preg_replace;
 use function strlen;
+use function substr;
 
 /**
  * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
+#[CoversClass(Router::class)]
+#[UsesClass(Action::class)]
+#[UsesClass(NotFoundAction::class)]
 final class RouterTest extends TestCase
 {
     private static $router;
     private static $route_map;
 
-    public static function set_up_before_class()
+    public static function setUpBeforeClass(): void
     {
-        parent::set_up_before_class();
+        parent::setUpBeforeClass();
 
         $re_user = '/^@([-A-Za-z]{3,15})$/';
         $re_id   = '/^\d+$/';
@@ -41,9 +49,7 @@ final class RouterTest extends TestCase
         self::$router = new Router(self::$route_map);
     }
 
-    /**
-     * @dataProvider dataProviderFor_match
-     */
+    #[DataProvider('dataProviderFor_match')]
     public function test_match($method, $path, $expected_value, $expected_param)
     {
         $actual = self::$router->match($method, $path);
@@ -58,7 +64,7 @@ final class RouterTest extends TestCase
                 if (empty($actual->param_pos[$i])) {
                     $this->assertEquals($split_path[$i], $path);
                 } else {
-                    $this->assertRegExp($path, $split_path[$i]);
+                    $this->assertMatchesRegularExpression($path, $split_path[$i]);
                 }
             }
         } else {
@@ -72,7 +78,7 @@ final class RouterTest extends TestCase
         }
     }
 
-    public function dataProviderFor_match()
+    public static function dataProviderFor_match()
     {
         $not_found = 'Not Found!';
 
@@ -104,9 +110,7 @@ final class RouterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderFor_match
-     */
+    #[DataProvider('dataProviderFor_match')]
     public function test_dispatch($method, $path, $expected_value, $expected_param)
     {
         $actual = Router::dispatch(self::$route_map, $method, $path);
@@ -115,15 +119,13 @@ final class RouterTest extends TestCase
         $this->assertEquals(self::$router->match($method, $path), $actual);
     }
 
-    /**
-     * @dataProvider dataProviderFor_makePath
-     */
+    #[DataProvider('dataProviderFor_makePath')]
     public function test_makePath($expected, $name, array $param, $strict)
     {
         $this->assertEquals($expected, self::$router->makePath($name, $param, $strict));
     }
 
-    public function dataProviderFor_makePath()
+    public static function dataProviderFor_makePath()
     {
         return [
             ['/',     'root', [],                    'strict' => false],
@@ -137,16 +139,15 @@ final class RouterTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderFor_makePath_throws_DomainException
-     */
+    #[DataProvider('dataProviderFor_makePath_throws_DomainException')]
     public function test_makePath_throws_DomainException($expected, $name, array $param)
     {
-        $this->expectException('\DomainException', $expected);
-        $this->assertEquals($expected, self::$router->makePath($name, $param, true));
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage($expected);
+        self::$router->makePath($name, $param, true);
     }
 
-    public function dataProviderFor_makePath_throws_DomainException()
+    public static function dataProviderFor_makePath_throws_DomainException()
     {
         return [
             ['unnecessary parameters', 'root',      ['dummy' => 'val']],
