@@ -2,8 +2,8 @@
 /build/phpdox
 /build/phploc
 /build/report
-/composer.lock
 /phpunit.xml
+.phpunit.cache/
 /vendor/*
 /.idea
 /*.iml
