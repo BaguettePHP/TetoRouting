@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9e2e3ee60806d659703c8ab2684776d",
+    "content-hash": "b58a93fe57a27a8f4b913533a3e6f0d0",
     "packages": [],
     "packages-dev": [
         {
@@ -2044,6 +2044,56 @@
                 }
             ],
             "time": "2024-10-20T05:08:20+00:00"
+        },
+        {
+            "name": "symplify/easy-coding-standard",
+            "version": "13.2.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ecsphp/ecs.git",
+                "reference": "14449735108430e3f2c4d9e58699b95d6855240b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/14449735108430e3f2c4d9e58699b95d6855240b",
+                "reference": "14449735108430e3f2c4d9e58699b95d6855240b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "conflict": {
+                "friendsofphp/php-cs-fixer": "<3.95.20",
+                "phpcsstandards/php_codesniffer": "<4.0.4",
+                "symplify/coding-standard": "<13.0"
+            },
+            "suggest": {
+                "ext-dom": "Needed to support checkstyle output format in class CheckstyleOutputFormatter"
+            },
+            "bin": [
+                "bin/ecs"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer",
+            "keywords": [
+                "Code style",
+                "automation",
+                "fixer",
+                "static analysis"
+            ],
+            "support": {
+                "source": "https://github.com/ecsphp/ecs/tree/13.2.18"
+            },
+            "time": "2026-08-20T16:49:05+00:00"
         },
         {
             "name": "theseer/tokenizer",

@@ -18,7 +18,8 @@
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-phpunit": "^2.0",
-        "phpunit/phpunit": "^13.2 || ^12.5 || ^11.5"
+        "phpunit/phpunit": "^13.2 || ^12.5 || ^11.5",
+        "symplify/easy-coding-standard": "^13.2"
     },
     "autoload": {
         "psr-4": {
