@@ -4,28 +4,59 @@ on:
   push:
     paths-ignore:
     - '**/*.md'
+  pull_request:
+    paths-ignore:
+    - '**/*.md'
 
 jobs:
-  run:
-    runs-on: ${{ matrix.operating-system }}
+  phpunit:
+    name: PHPUnit PHP ${{ matrix.php-versions }} (${{ matrix.dependencies }})
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2']
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+        php-versions: ['8.3', '8.4', '8.5']
+        dependencies:
+          - highest
+          - lowest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+        coverage: none
         tools: composer
-        extensions: intl, mbstring
 
-    - name: Setup Composer
-      run: 'composer install'
+    - name: Install highest dependencies
+      if: matrix.dependencies == 'highest'
+      run: composer update --no-interaction --no-progress
+
+    - name: Install lowest dependencies
+      if: matrix.dependencies == 'lowest'
+      run: composer update --prefer-lowest --no-interaction --no-progress
 
     - name: Run tests
-      run: './vendor/bin/phpunit'
+      run: ./vendor/bin/phpunit
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.5'
+        coverage: none
+        tools: composer
+
+    - name: Setup Composer
+      run: composer update --no-interaction --no-progress
+
+    - name: Run PHPStan
+      run: ./vendor/bin/phpstan
