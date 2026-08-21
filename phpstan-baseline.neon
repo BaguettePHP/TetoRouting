@@ -1,0 +1,913 @@
+parameters:
+	ignoreErrors:
+		-
+			rawMessage: Binary operation "." between '/' and mixed results in an error.
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Call to an undefined static method Teto\Routing\Action::assertValue().'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: Cannot access offset 'methods' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::__construct() has parameter $param_pos with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::assertMethods() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::assertMethods() has parameter $methods with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::create() has parameter $params with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::makePath() has parameter $param with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::parsePathParam() has parameter $params with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::parsePathParam() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Action::setHTTPMethod() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Parameter #2 $arrays of function array_diff expects an array of values castable to string, list given.'
+			identifier: argument.type
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Parameter #2 $callback of function array_filter expects (callable(string): bool)|null, ''strlen'' given.'
+			identifier: argument.type
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Parameter #2 $split_path of class Teto\Routing\Action constructor expects array<string>, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Parameter #2 $subject of function preg_match expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Parameter #3 $param_pos of class Teto\Routing\Action constructor expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: Possibly invalid array key type mixed.
+			identifier: offsetAccess.invalidOffset
+			count: 4
+			path: src/Action.php
+
+		-
+			rawMessage: Property Teto\Routing\Action::$available_extensions type has no value type specified in iterable type array.
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: Property Teto\Routing\Action::$enum_values has no type specified.
+			identifier: missingType.property
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: Property Teto\Routing\Action::$param type has no value type specified in iterable type array.
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: Property Teto\Routing\Action::$param_pos type has no value type specified in iterable type array.
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Strict comparison using !== between string and null will always evaluate to true.'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: Variable $v might not be defined.
+			identifier: variable.undefined
+			count: 1
+			path: src/Action.php
+
+		-
+			rawMessage: 'Binary operation ".=" between non-falsy-string and mixed results in an error.'
+			identifier: assignOp.invalid
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset '[' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Cannot access offset '']'' on mixed.'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset 0 on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset 1 on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset 2 on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset 3 on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Cannot access offset int<0, max> on mixed.'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Cannot access offset int<1, max> on mixed.'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset non-empty-string on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Cannot access offset string on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 6
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Method Teto\Routing\CommonPrefixTrieRouter::search() has parameter $trie with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Method Teto\Routing\CommonPrefixTrieRouter::search() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Method Teto\Routing\CommonPrefixTrieRouter::search() should return array but returns array<string, mixed>|null.'
+			identifier: return.type
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Method Teto\Routing\CommonPrefixTrieRouter::trieConstruction() has parameter $conf with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Method Teto\Routing\CommonPrefixTrieRouter::trieConstruction() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Offset mixed on array{} in isset() does not exist.'
+			identifier: isset.offset
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Parameter #1 $string of function strlen expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
+			identifier: argument.type
+			count: 3
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: 'Parameter #4 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Possibly invalid array key type mixed.
+			identifier: offsetAccess.invalidOffset
+			count: 8
+			path: src/CommonPrefixTrieRouter.php
+
+		-
+			rawMessage: Class Teto\Routing\NotFoundAction has PHPDoc tag @property-read for property $param_pos with no value type specified in iterable type array.
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/NotFoundAction.php
+
+		-
+			rawMessage: 'Method Teto\Routing\NotFoundAction::assertMethods() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: src/NotFoundAction.php
+
+		-
+			rawMessage: 'Method Teto\Routing\NotFoundAction::assertMethods() has parameter $methods with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/NotFoundAction.php
+
+		-
+			rawMessage: 'Argument of an invalid type Teto\Routing\Action supplied for foreach, only iterables are supported.'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: Cannot access an offset on array|Teto\Routing\Action.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Cannot call method match() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Comparison operation ">" between int<1, max> and 0 is always true.'
+			identifier: greater.alwaysTrue
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::__construct() has parameter $route_map with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::__set() has parameter $name with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::__set() has parameter $value with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::dispatch() has parameter $route_map with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::makePath() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::makePath() has parameter $param with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::match() should return Teto\Routing\Action but returns mixed.'
+			identifier: return.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::setAction() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::setAction() has parameter $action_tuple with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Method Teto\Routing\Router::setSpecialAction() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #1 $method_str of static method Teto\Routing\Action::create() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #2 $action_tuple of method Teto\Routing\Router::setAction() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #2 $callback of function array_filter expects (callable(string): bool)|null, ''strlen'' given.'
+			identifier: argument.type
+			count: 2
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #2 $ext of method Teto\Routing\Action::makePath() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #2 $path of static method Teto\Routing\Action::create() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #4 $ext of static method Teto\Routing\Action::create() expects array<string>, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Parameter #5 $params of static method Teto\Routing\Action::create() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Part $name (mixed) of encapsed string cannot be cast to string.'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: Property Teto\Routing\Router::$error_action type has no value type specified in iterable type array.
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Property Teto\Routing\Router::$variable_actions (array<Teto\Routing\Action>) does not accept array<array|Teto\Routing\Action>.'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: 'Property Teto\Routing\Router::$variable_actions (array<Teto\Routing\Action>) does not accept array<list<Teto\Routing\Action>|Teto\Routing\Action>.'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Router.php
+
+		-
+			rawMessage: If condition is always true.
+			identifier: if.alwaysTrue
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::dataProviderFor_match() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::dataProviderFor_parsePathParam() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::dataProviderFor_test_makePath() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has parameter $expected with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has parameter $ext with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has parameter $param with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has parameter $param_pos with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has parameter $split_path with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_makePath() has parameter $strict with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $expected with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $extension with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $methods with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $param with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $param_pos with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $request with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_match() has parameter $split_path with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_parsePathParam() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_parsePathParam() has parameter $expected with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_parsePathParam() has parameter $params with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\ActionTest::test_parsePathParam() has parameter $path with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #1 $methods of class Teto\Routing\Action constructor expects array<string>, array given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #1 $param of method Teto\Routing\Action::makePath() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #1 $path of static method Teto\Routing\Action::parsePathParam() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #1 $request_method of method Teto\Routing\Action::match() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #2 $ext of method Teto\Routing\Action::makePath() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #2 $params of static method Teto\Routing\Action::parsePathParam() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #2 $request_path of method Teto\Routing\Action::match() expects array<string>, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #2 $split_path of class Teto\Routing\Action constructor expects array<string>, array given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #2 $split_path of class Teto\Routing\Action constructor expects array<string>, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #3 $extension of method Teto\Routing\Action::match() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #3 $param_pos of class Teto\Routing\Action constructor expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #3 $strict of method Teto\Routing\Action::makePath() expects bool, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Parameter #4 $available_extensions of class Teto\Routing\Action constructor expects array<string>, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Strict comparison using !== between Teto\Routing\Action|false and null will always evaluate to true.'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: tests/ActionTest.php
+
+		-
+			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
+			identifier: foreach.nonIterable
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Binary operation "." between '/\\.' and mixed results in an error.
+			identifier: binaryOp.invalid
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Cannot access offset mixed on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Cannot access property $extension on mixed.
+			identifier: property.nonObject
+			count: 2
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Cannot access property $param on mixed.
+			identifier: property.nonObject
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Cannot access property $param_pos on mixed.
+			identifier: property.nonObject
+			count: 2
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Cannot access property $split_path on mixed.
+			identifier: property.nonObject
+			count: 3
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Cannot access property $value on mixed.
+			identifier: property.nonObject
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Cannot call method makePath() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Cannot call method match() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::dataProviderFor_makePath() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::dataProviderFor_makePath_throws_DomainException() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::dataProviderFor_match() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_dispatch() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_dispatch() has parameter $expected_param with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_dispatch() has parameter $expected_value with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_dispatch() has parameter $method with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_dispatch() has parameter $path with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath() has parameter $expected with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath() has parameter $name with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath() has parameter $param with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath() has parameter $strict with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath_throws_DomainException() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath_throws_DomainException() has parameter $expected with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath_throws_DomainException() has parameter $name with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_makePath_throws_DomainException() has parameter $param with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_match() has no return type specified.'
+			identifier: missingType.return
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_match() has parameter $expected_param with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_match() has parameter $expected_value with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_match() has parameter $method with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Method Teto\Routing\RouterTest::test_match() has parameter $path with no type specified.'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #1 $message of method PHPUnit\Framework\TestCase::expectExceptionMessage() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #1 $pattern of method PHPUnit\Framework\Assert::assertMatchesRegularExpression() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #1 $route_map of static method Teto\Routing\Router::dispatch() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #1 $string of function strlen expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #1 $string of function substr expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #2 $haystack of method PHPUnit\Framework\Assert::assertCount() expects Countable|iterable, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #2 $method of static method Teto\Routing\Router::dispatch() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: 'Parameter #3 $path of static method Teto\Routing\Router::dispatch() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Possibly invalid array key type mixed.
+			identifier: offsetAccess.invalidOffset
+			count: 2
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Property Teto\Routing\RouterTest::$route_map has no type specified.
+			identifier: missingType.property
+			count: 1
+			path: tests/RouterTest.php
+
+		-
+			rawMessage: Property Teto\Routing\RouterTest::$router has no type specified.
+			identifier: missingType.property
+			count: 1
+			path: tests/RouterTest.php
