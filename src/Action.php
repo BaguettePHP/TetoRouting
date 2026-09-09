@@ -104,10 +104,6 @@ class Action
             return null;
         }
 
-        if (count($this->param_pos) === 0 && $request_path === $this->split_path) {
-            return $this;
-        }
-
         foreach ($this->split_path as $i => $p) {
             $q = $request_path[$i];
 
@@ -148,7 +144,7 @@ class Action
 
         if ($strict) {
             $got_keys = array_keys($param);
-            $expects = array_values($this->param_pos);
+            $expects = $this->param_pos;
             $diff = array_diff($got_keys, $expects);
 
             if ($diff !== []) {
@@ -200,10 +196,6 @@ class Action
     public static function parsePathParam(string $path, array $params): array
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
-
-        if (empty($params)) {
-            return [$split_path, []];
-        }
 
         $new_split_path = [];
         $param_pos = [];

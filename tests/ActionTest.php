@@ -399,6 +399,30 @@ final class ActionTest extends TestCase
         $action->makePath([], null, false);
     }
 
+    public function test_matchRejectsRequestPathThatEqualsParameterPattern(): void
+    {
+        $action = new Action(['GET'], ['users', '(^\d+$)'], [1 => 'id'], [], 'returns!');
+
+        $this->assertNull($action->match('GET', ['users', '(^\d+$)'], ''));
+    }
+
+    public function test_matchUsesWholeMatchWhenPatternHasNoCaptureGroup(): void
+    {
+        $action = new Action(['GET'], ['/^\d+$/'], [0 => 'id'], [], 'returns!');
+
+        $matched = $action->match('GET', ['123'], '');
+
+        $this->assertNotNull($matched);
+        $this->assertSame(['id' => '123'], $matched->param);
+    }
+
+    public function test_matchExtensionIsPublic(): void
+    {
+        $action = new Action(['GET'], [], [], ['json'], 'returns!');
+
+        $this->assertTrue($action->matchExtension('json'));
+    }
+
     public function test_createBuildsAction(): void
     {
         $action = Action::create('GET', '/users/:id', 'returns!', [], ['id' => '/^\d+$/']);

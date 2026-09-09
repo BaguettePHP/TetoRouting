@@ -31,6 +31,16 @@ final class CommonPrefixTrieRouterTest extends TestCase
             CommonPrefixTrieRouter::search($trie, '/users/123', 'GET'),
         );
         $this->assertSame(
+            ['value' => 'numeric', 'params' => ['id' => '0']],
+            CommonPrefixTrieRouter::search($trie, '/users/0', 'GET'),
+        );
+        $this->assertSame(
+            ['value' => 'numeric', 'params' => ['id' => '9']],
+            CommonPrefixTrieRouter::search($trie, '/users/9', 'GET'),
+        );
+        $this->assertNull(CommonPrefixTrieRouter::search($trie, '/users/1a2', 'GET'));
+        $this->assertNull(CommonPrefixTrieRouter::search($trie, '/users/abc', 'GET'));
+        $this->assertSame(
             ['value' => 'string', 'params' => ['slug' => 'hello']],
             CommonPrefixTrieRouter::search($trie, '/posts/hello', 'GET'),
         );
@@ -47,6 +57,16 @@ final class CommonPrefixTrieRouterTest extends TestCase
         $this->assertNull(CommonPrefixTrieRouter::search($trie, '/posts/list', 'GET'));
     }
 
+    public function test_searchReturnsNullForInvalidRequestsAgainstRootRoute(): void
+    {
+        $trie = CommonPrefixTrieRouter::trieConstruction([
+            ['GET', '/', 'root'],
+        ]);
+
+        $this->assertNull(CommonPrefixTrieRouter::search($trie, '', 'GET'));
+        $this->assertNull(CommonPrefixTrieRouter::search($trie, 'users', 'GET'));
+    }
+
     public function test_searchReturnsNullForMalformedNodes(): void
     {
         $this->assertNull(CommonPrefixTrieRouter::search(
@@ -55,12 +75,12 @@ final class CommonPrefixTrieRouterTest extends TestCase
             'GET',
         ));
         $this->assertNull(CommonPrefixTrieRouter::search(
-            ['GET' => ['[' => []]],
+            ['GET' => ['[' => [], '>' => 'root']],
             '/123',
             'GET',
         ));
         $this->assertNull(CommonPrefixTrieRouter::search(
-            ['GET' => [']' => []]],
+            ['GET' => [']' => [], '>' => 'root']],
             '/hello',
             'GET',
         ));
@@ -105,6 +125,16 @@ final class CommonPrefixTrieRouterTest extends TestCase
         CommonPrefixTrieRouter::trieConstruction([
             ['GET', '/users/:id', 'first', ['id' => '[']],
             ['GET', '/users/:name', 'second', ['name' => '[']],
+        ]);
+    }
+
+    public function test_trieConstructionRejectsDuplicateRouteWithSameParameterName(): void
+    {
+        $this->expectExceptionMessage('重複したルーティングルールがあります /users/:id');
+
+        CommonPrefixTrieRouter::trieConstruction([
+            ['GET', '/users/:id', 'first', ['id' => '[']],
+            ['GET', '/users/:id', 'second', ['id' => '[']],
         ]);
     }
 }

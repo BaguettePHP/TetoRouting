@@ -113,6 +113,7 @@ final class RouterTest extends TestCase
         yield ['POST', '/data',              'post_data_json',  []];
         yield ['GET', '/data.',              $not_found,        []];
         yield ['GET', '/data.json',          'data_json',       []];
+        yield ['GET', '/data.json.foo',       $not_found,        []];
         yield ['GET', '/et al',              $not_found,        []];
         yield ['GET', '/et al.',             'etal',            []];
         yield ['GET', '/et al.json',         $not_found,        []];
@@ -205,6 +206,11 @@ final class RouterTest extends TestCase
         ];
     }
 
+    public function test_makePathDefaultsToNonStrict(): void
+    {
+        $this->assertSame('/', self::$router->makePath('root', ['dummy' => 'val']));
+    }
+
     /** @param array<string, int|string> $param */
     #[DataProvider('dataProviderFor_makePath_throws_DomainException')]
     public function test_makePath_throws_DomainException(string $expected, string $name, array $param): void
@@ -270,6 +276,40 @@ final class RouterTest extends TestCase
         ];
     }
 
+    public function test_makePathReportsUnexpectedParameterAsList(): void
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('unnecessary parameters: ["dummy"]');
+
+        self::$router->makePath('user_work', [
+            'user' => '@john',
+            'id' => 12,
+            'dummy' => 'val',
+        ], true);
+    }
+
+    public function test_publicRouteHelpersRemainCallable(): void
+    {
+        $router = new Router(['#404' => 'Not Found!']);
+
+        $router->setAction('home', ['GET', '/home', 'Home']);
+        $router->setSpecialAction('#404', 'Still not found!');
+
+        $this->assertSame('Home', $router->match('GET', '/home')->value);
+        $this->assertSame(['GET'], $router->getNotFoundAction('GET', '/missing')->methods);
+        $this->assertSame('Still not found!', $router->match('GET', '/missing')->value);
+    }
+
+    public function test_setActionUsesTrueForFalsyValue(): void
+    {
+        $router = new Router([
+            'zero' => ['GET', '/zero', 0],
+            '#404' => 'Not Found!',
+        ]);
+
+        $this->assertTrue($router->match('GET', '/zero')->value);
+    }
+
     public function test_setRejectsUnexpectedProperty(): void
     {
         $router = new Router(['#404' => 'Not Found!']);
@@ -293,11 +333,18 @@ final class RouterTest extends TestCase
     public function test_matchRejectsUnsafePaths(): void
     {
         $router = new Router([
-            'home' => ['GET', '/home', 'Home'],
+            'home_extra' => ['GET', '/home/extra', 'Home extra'],
             '#404' => 'Not Found!',
         ]);
 
         $this->assertSame('Not Found!', $router->match('GET', '/home//extra')->value);
+        $this->assertSame(['GET'], $router->match('GET', '/home//extra')->methods);
+
+        $router = new Router([
+            'encoded' => ['GET', "/home\x1Eextra", 'Encoded'],
+            '#404' => 'Not Found!',
+        ]);
+
         $this->assertSame('Not Found!', $router->match('GET', "/home\x1Eextra")->value);
     }
 
