@@ -5,6 +5,7 @@
 /phpunit.xml
 .phpunit.cache/
 /vendor/*
+/vendor-bin/**/vendor/
 /.idea
 /*.iml
 /*.tar
