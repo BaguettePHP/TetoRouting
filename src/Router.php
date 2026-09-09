@@ -3,74 +3,71 @@
 namespace Teto\Routing;
 
 use function array_filter;
-use function array_shift;
 use function array_values;
 use function count;
 use function explode;
 use function implode;
 use function is_numeric;
+use function is_string;
 use function strpos;
 
 /**
- * Router
- *
- * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
 class Router
 {
-    const _ext = '?ext';
-    const _sep = "\x1E";
+    private const string _ext = '?ext';
 
-    /** @var \Teto\Routing\Action[] */
-    public $variable_actions = [];
+    private const string _sep = "\x1E";
 
-    /** @var \Teto\Routing\Action[][] */
-    public $fixed_actions = [];
+    /** @var array<int, list<Action>> */
+    public array $variable_actions = [];
 
-    /** @var \Teto\Routing\Action[] */
-    public $named_actions = [];
+    /** @var array<string, array<string, Action>> */
+    public array $fixed_actions = [];
 
-    /** @var array */
-    public $error_action = [];
+    /** @var array<string, Action> */
+    public array $named_actions = [];
 
-    public function __set($name, $value)
+    /** @var array<string, mixed> */
+    public array $error_action = [];
+
+    public function __set(string $name, mixed $value): void
     {
         throw new \OutOfRangeException("Unexpected key:'$name'");
     }
 
     /**
-     * @param  array  $route_map
-     * @param  string $method
-     * @param  string $path
-     * @return \Teto\Routing\Action
+     * @param array<int|string, array{0: non-empty-string, 1: non-empty-string, 2?: mixed, 3?: array<string, string>, '?ext'?: list<string>}|string> $route_map
      */
-    public static function dispatch(array $route_map, $method, $path)
+    public static function dispatch(array $route_map, string $method, string $path): Action
     {
         return (new Router($route_map))->match($method, $path);
     }
 
     /**
-     * @param array $route_map
+     * @param array<int|string, array{0: non-empty-string, 1: non-empty-string, 2?: mixed, 3?: array<string, string>, '?ext'?: list<string>}|string> $route_map
      */
     public function __construct(array $route_map)
     {
         foreach ($route_map as $k => $m) {
-            ($k !== '#404')
-                ? $this->setAction($k, $m)
-                : $this->setSpecialAction($k, $m);
+            if ($k !== '#404') {
+                if (!is_array($m)) {
+                    throw new \TypeError('Route definitions must be arrays.');
+                }
+                $this->setAction($k, $m);
+            } else {
+                $this->setSpecialAction($k, $m);
+            }
         }
     }
 
-    /**
-     * @param   string $method
-     * @param   string $path
-     * @return  \Teto\Routing\Action
-     */
-    public function match($method, $path)
+    public function match(string $method, string $path): Action
     {
-        if ($method === 'HEAD') { $method = 'GET'; }
+        if ($method === 'HEAD') {
+            $method = 'GET';
+        }
         if (strpos($path, '//') !== false || strpos($path, self::_sep) !== false) {
             return $this->getNotFoundAction($method, $path);
         }
@@ -78,13 +75,13 @@ class Router
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
         $count = count($split_path);
 
-        $ext  = '';
+        $ext = '';
 
         if ($count > 0) {
             $file = explode('.', $split_path[$count - 1], 2);
             if (isset($file[1]) && strlen($file[1]) > 0) {
                 if (strlen($file[1]) > 0) {
-                    list($split_path[$count - 1], $ext) = $file;
+                    [$split_path[$count - 1], $ext] = $file;
                 } else {
                     $split_path[$count - 1] .= '.';
                 }
@@ -110,12 +107,7 @@ class Router
         return $this->getNotFoundAction($method, $path);
     }
 
-    /**
-     * @param   string $method
-     * @param   string $path
-     * @return  \Teto\Routing\Action
-     */
-    public function getNotFoundAction($method, $path)
+    public function getNotFoundAction(string $method, string $path): Action
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
@@ -129,10 +121,9 @@ class Router
     }
 
     /**
-     * @param int|string $key
-     * @param array      $action_tuple
+     * @param array{0: non-empty-string, 1: non-empty-string, 2?: mixed, 3?: array<string, string>, '?ext'?: list<string>} $action_tuple
      */
-    public function setAction($key, array $action_tuple)
+    public function setAction(int|string $key, array $action_tuple): void
     {
         if (isset($action_tuple[self::_ext])) {
             $ext = $action_tuple[self::_ext];
@@ -141,14 +132,14 @@ class Router
             $ext = [];
         }
 
-        $method = array_shift($action_tuple);
-        $path   = array_shift($action_tuple);
-        $value  = array_shift($action_tuple) ?: true ;
-        $params = array_shift($action_tuple) ?: [] ;
+        $method = $action_tuple[0];
+        $path = $action_tuple[1];
+        $value = ($action_tuple[2] ?? null) ?: true;
+        $params = $action_tuple[3] ?? [];
         $action = Action::create($method, $path, $value, $ext, $params);
 
         if (!empty($action->param_pos)) {
-            $count  = count($action->split_path);
+            $count = count($action->split_path);
             if (!isset($this->variable_actions[$count])) {
                 $this->variable_actions[$count] = [];
             }
@@ -165,21 +156,15 @@ class Router
         }
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function setSpecialAction($name, $value)
+    public function setSpecialAction(string $name, mixed $value): void
     {
         $this->error_action[$name] = $value;
     }
 
     /**
-     * @param string  $name
-     * @param array   $param
-     * @param boolean $strict
+     * @param array<string, int|string> $param
      */
-    public function makePath($name, array $param = [], $strict = false)
+    public function makePath(string $name, array $param = [], bool $strict = false): string
     {
         if (empty($this->named_actions[$name])) {
             throw new \OutOfRangeException("\"$name\" is not exists.");
@@ -190,6 +175,10 @@ class Router
             unset($param[self::_ext]);
         } else {
             $ext = null;
+        }
+
+        if ($ext !== null && !is_string($ext)) {
+            throw new \TypeError('The extension parameter must be a string or null.');
         }
 
         return $this->named_actions[$name]->makePath($param, $ext, $strict);
