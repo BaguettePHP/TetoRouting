@@ -165,7 +165,7 @@ class Action
 
             $name = $this->param_pos[$i];
 
-            if (!isset($param[$name]) || !preg_match($pattern, (string) $param[$name], $matches)) {
+            if (!isset($param[$name]) || !preg_match($pattern, (string)$param[$name], $matches)) {
                 throw new \DomainException("Error");
             }
 
