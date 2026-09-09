@@ -9,8 +9,11 @@ use function array_keys;
 use function array_values;
 use function count;
 use function explode;
+use function get_debug_type;
+use function implode;
 use function in_array;
 use function preg_match;
+use function sprintf;
 use function strlen;
 use function strpos;
 use function substr;
@@ -24,7 +27,6 @@ use function substr;
  */
 class Action
 {
-    use \Teto\Object\TypeAssert;
     const WILDCARD = '*';
 
     /** @var string[] */
@@ -44,9 +46,8 @@ class Action
     /** @var array */
     public $available_extensions;
 
-    private static $enum_values = [
-        'methods' => ['GET', 'POST'],
-    ];
+    /** @var array<int, string> */
+    private static array $allowed_methods = ['GET', 'POST'];
 
     /**
      * @param string[] $methods
@@ -230,17 +231,24 @@ class Action
     }
 
     /**
-     * @param string[] $methods ex. ['GET', 'POST', 'PUT', 'DELETE']
+     * @param array<int, string> $methods ex. ['GET', 'POST', 'PUT', 'DELETE']
      */
-    public static function setHTTPMethod(array $methods)
+    public static function setHTTPMethod(array $methods): void
     {
-        self::$enum_values['methods'] = $methods;
+        self::$allowed_methods = $methods;
     }
 
-    protected static function assertMethods(array $methods)
+    /**
+     * @param array<int, string> $methods
+     * @throws \InvalidArgumentException
+     */
+    protected static function assertMethods(array $methods): void
     {
         foreach ($methods as $m) {
-            self::assertValue('enum', 'methods', $m, false);
+            if (!in_array($m, self::$allowed_methods, true)) {
+                $message = sprintf('got $methods as %s (expects [%s])', get_debug_type($m), implode(', ', self::$allowed_methods));
+                throw new \InvalidArgumentException($message);
+            }
         }
     }
 }
