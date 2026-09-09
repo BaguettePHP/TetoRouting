@@ -2,7 +2,7 @@ Teto Routing - PHP simple router
 ================================
 
 [![Package version](http://img.shields.io/packagist/v/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
-[![CI build status](https://github.com/BaguettePHP/TetoRouting/actions/workflows/CI.yml/badge.svg)](https://github.com/BaguettePHP/TetoRouting/actions/workflows/CI.yml)
+[![CI Build Status](https://github.com/BaguettePHP/TetoRouting/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/BaguettePHP/TetoRouting/actions)
 [![Packagist](http://img.shields.io/packagist/dt/zonuexe/simple-routing.svg?style=flat)](https://packagist.org/packages/zonuexe/simple-routing)
 
 Simple routing for WebApp
@@ -85,8 +85,6 @@ You can get these libraries from Packagist.
 
 * [HTTP Accept-Language](https://github.com/zonuexe/php-http-accept-language)
   * [zonuexe/http-accept-language - Packagist](https://packagist.org/packages/zonuexe/http-accept-language)
-* [Teto Objectsystem](https://github.com/zonuexe/php-objectsystem)
-  * [zonuexe/objectsystem - Packagist](https://packagist.org/packages/zonuexe/objectsystem)
 * [Baguette PHP](https://github.com/BaguettePHP/baguette)
   * [zonuexe/baguette](https://packagist.org/packages/zonuexe/baguette)
 

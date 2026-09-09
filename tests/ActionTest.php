@@ -2,221 +2,333 @@
 
 namespace Teto\Routing;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
- * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
+#[CoversClass(Action::class)]
 final class ActionTest extends TestCase
 {
     /**
-     * @dataProvider dataProviderFor_match
+     * @param array<string, string> $param
+     * @param array<int, string> $methods
+     * @param array<int, string> $split_path
+     * @param array<int, string> $extension
+     * @param array<int, string> $param_pos
+     * @param array{method: string, path: array<int, string>, ext: string} $request
      */
+    #[DataProvider('dataProviderFor_match')]
     public function test_match(
-        $expected,
-        $param,
+        bool $expected,
+        array $param,
         array $methods,
         array $split_path,
-        $extension,
+        array $extension,
         array $param_pos,
         array $request
-    ) {
+    ): void {
         $action = new Action($methods, $split_path, $param_pos, $extension, 'matched!');
         $actual = $action->match($request['method'], $request['path'], $request['ext']);
 
-        if (isset($param_pos['?ext'])) { unset($param_pos['?ext']); }
-
-        $this->assertSame($expected, $actual !== false);
+        $this->assertSame($expected, $actual !== null);
         $this->assertSame($action->param, $param);
 
         if ($expected) {
-            $this->assertInstanceOf('\Teto\Routing\Action', $actual);
+            $this->assertInstanceOf(Action::class, $actual);
             $this->assertSame($action, $actual);
         }
     }
 
-    public function dataProviderFor_match()
+    public static function dataProviderFor_match(): array
     {
         return [
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => [],
-                'extension'  => [],
-                'param_pos'  => [],
-                'request'    => ['method' => 'GET', 'path' => ['foo'], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['foo'],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => true,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => [],
-                'extension'  => [],
-                'param_pos'  => [],
-                'request'    => ['method' => 'GET', 'path' => [], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => [],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => [],
-                'param_pos'  => [],
-                'request'    => ['method' => 'GET', 'path' => [], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => [],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => ['id' => '1'],
-                'methods'    => ['GET'],
+                'expected' => true,
+                'param' => [
+                    'id' => '1',
+                ],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => [],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '1'],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => ['id' => '1'],
-                'methods'    => ['GET', 'POST'],
+                'expected' => true,
+                'param' => [
+                    'id' => '1',
+                ],
+                'methods' => ['GET', 'POST'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => [],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '1'],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['POST'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['POST'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => [],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1'], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '1'],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => [],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', 'a'], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', 'a'],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/\A(\d+)\.json\z/'],
-                'extension'  => [],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1234'], 'ext' => ''],
+                'extension' => [],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '1234'],
+                    'ext' => '',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => ['id' => '1234'],
-                'methods'    => ['GET'],
+                'expected' => true,
+                'param' => [
+                    'id' => '1234',
+                ],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/\A(\d+)\.json\z/'],
-                'extension'  => [],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '1234'], 'ext' => 'json'],
+                'extension' => [],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '1234'],
+                    'ext' => 'json',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => ['id' => '0401'],
-                'methods'    => ['GET'],
+                'expected' => true,
+                'param' => [
+                    'id' => '0401',
+                ],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => ['', 'jpg'],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'jpg'],
+                'extension' => ['', 'jpg'],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '0401'],
+                    'ext' => 'jpg',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => ['', 'jpg'],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'png'],
+                'extension' => ['', 'jpg'],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '0401'],
+                    'ext' => 'png',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => ['id' => '0401'],
-                'methods'    => ['GET'],
+                'expected' => true,
+                'param' => [
+                    'id' => '0401',
+                ],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => ['jpg', 'gif'],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'jpg'],
+                'extension' => ['jpg', 'gif'],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '0401'],
+                    'ext' => 'jpg',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => ['jpg', 'gif'],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'png'],
+                'extension' => ['jpg', 'gif'],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '0401'],
+                    'ext' => 'png',
+                ],
             ],
             [
-                'expected'   => true,
-                'param'      => ['id' => '0401'],
-                'methods'    => ['GET'],
+                'expected' => true,
+                'param' => [
+                    'id' => '0401',
+                ],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => ['*'],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => 'png'],
+                'extension' => ['*'],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '0401'],
+                    'ext' => 'png',
+                ],
             ],
             [
-                'expected'   => false,
-                'param'      => [],
-                'methods'    => ['GET'],
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
-                'extension'  => ['jpg', 'gif'],
-                'param_pos'  => [1 => 'id'],
-                'request'    => ['method' => 'GET', 'path' => ['users', '0401'], 'ext' => ''],
+                'extension' => ['jpg', 'gif'],
+                'param_pos' => [
+                    1 => 'id',
+                ],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', '0401'],
+                    'ext' => '',
+                ],
             ],
         ];
     }
 
     /**
-     * @dataProvider dataProviderFor_parsePathParam
+     * @param array<int|string, mixed> $expected
+     * @param array<string, string> $params
      */
-    public function test_parsePathParam($expected, $path, $params)
+    #[DataProvider('dataProviderFor_parsePathParam')]
+    public function test_parsePathParam(array $expected, string $path, array $params): void
     {
         $this->assertEquals($expected, Action::parsePathParam($path, $params));
     }
 
-    public function dataProviderFor_parsePathParam()
+    public static function dataProviderFor_parsePathParam(): array
     {
         return [
             [
                 'expected' => [[], []],
-                'path'     => '/',
-                'params'   => [],
+                'path' => '/',
+                'params' => [],
             ],
             [
                 'expected' => [['login'], []],
-                'path'     => '/login',
-                'params'   => [],
+                'path' => '/login',
+                'params' => [],
             ],
             [
                 'expected' => [
                     ['user', '/(@[-A-Za-z]{3,15})/', 'works'],
-                    [1 => 'name'],
+                    [
+                        1 => 'name',
+                    ],
                 ],
-                'path'     => '/user/:name/works',
-                'params'   => ['name' => '/(@[-A-Za-z]{3,15})/'],
+                'path' => '/user/:name/works',
+                'params' => [
+                    'name' => '/(@[-A-Za-z]{3,15})/',
+                ],
             ],
             [
                 'expected' => [['login'], []],
-                'path'     => '/login',
-                'params'   => [],
+                'path' => '/login',
+                'params' => [],
             ],
         ];
     }
 
     /**
-     * @dataProvider dataProviderFor_test_makePath
+     * @param array<int, string> $split_path
+     * @param array<int, string> $param_pos
+     * @param array<string, int|string> $param
      */
-    public function test_makePath($expected, $split_path, $param_pos, $param, $ext, $strict)
+    #[DataProvider('dataProviderFor_test_makePath')]
+    public function test_makePath(string $expected, array $split_path, array $param_pos, array $param, ?string $ext, bool $strict): void
     {
         $action = new Action(['GET'], $split_path, $param_pos, [], "returns!");
         $actual = $action->makePath($param, $ext, $strict);
@@ -224,16 +336,20 @@ final class ActionTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function dataProviderFor_test_makePath()
+    public static function dataProviderFor_test_makePath(): array
     {
         return [
             [
-                'expected'   => "/a/12/d",
+                'expected' => "/a/12/d",
                 'split_path' => ['a', '(^\d+$)', 'd'],
-                'param_pos'  => [1 => 'b'],
-                'param'      => ['b' => 12],
-                'ext'        => null,
-                'strict'     => false,
+                'param_pos' => [
+                    1 => 'b',
+                ],
+                'param' => [
+                    'b' => 12,
+                ],
+                'ext' => null,
+                'strict' => false,
             ],
         ];
     }

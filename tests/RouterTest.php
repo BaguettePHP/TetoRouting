@@ -2,27 +2,35 @@
 
 namespace Teto\Routing;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use function count;
 use function explode;
 use function preg_replace;
 use function strlen;
+use function substr;
 
 /**
- * @author    USAMI Kenta <tadsan@zonu.me>
  * @copyright 2016 BaguetteHQ
  * @license   http://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  */
+#[CoversClass(Router::class)]
+#[UsesClass(Action::class)]
+#[UsesClass(NotFoundAction::class)]
 final class RouterTest extends TestCase
 {
-    private static $router;
-    private static $route_map;
+    private static Router $router;
 
-    public static function set_up_before_class()
+    /** @var array<int|string, array{0: non-empty-string, 1: non-empty-string, 2?: mixed, 3?: array<string, string>, '?ext'?: list<string>}|string> */
+    private static array $route_map;
+
+    public static function setUpBeforeClass(): void
     {
-        parent::set_up_before_class();
+        parent::setUpBeforeClass();
 
         $re_user = '/^@([-A-Za-z]{3,15})$/';
-        $re_id   = '/^\d+$/';
+        $re_id = '/^\d+$/';
         self::$route_map = [
             'root' => ['GET', '/',        'index'],
             ['GET', '/:user',             'show_user',       ['user' => $re_user]],
@@ -35,16 +43,15 @@ final class RouterTest extends TestCase
             'pdata' => ['POST', '/data',  'post_data_json',   '?ext' => ['', 'json']],
             'info' => ['GET', '/info',    'info_feed',        '?ext' => ['', 'rss', 'rdf', 'xml']],
             ['GET|POST', '/search/:word', 'search',          ['word' => '/^.{1,10}$/']],
-             '#404' => 'Not Found!'
+            '#404' => 'Not Found!',
         ];
 
         self::$router = new Router(self::$route_map);
     }
 
-    /**
-     * @dataProvider dataProviderFor_match
-     */
-    public function test_match($method, $path, $expected_value, $expected_param)
+    /** @param array<string, int|string> $expected_param */
+    #[DataProvider('dataProviderFor_match')]
+    public function test_match(string $method, string $path, mixed $expected_value, array $expected_param): void
     {
         $actual = self::$router->match($method, $path);
         $split_path = (strlen($path) === 1) ? [] : explode('/', substr($path, 1));
@@ -58,13 +65,13 @@ final class RouterTest extends TestCase
                 if (empty($actual->param_pos[$i])) {
                     $this->assertEquals($split_path[$i], $path);
                 } else {
-                    $this->assertRegExp($path, $split_path[$i]);
+                    $this->assertMatchesRegularExpression($path, $split_path[$i]);
                 }
             }
         } else {
             if ($actual->extension) {
                 $last = count($split_path) - 1;
-                $pattern = '/\.'. $actual->extension . '$/';
+                $pattern = '/\.' . $actual->extension . '$/';
                 $split_path[$last] = preg_replace($pattern, '', $split_path[$last]);
             }
 
@@ -72,42 +79,53 @@ final class RouterTest extends TestCase
         }
     }
 
-    public function dataProviderFor_match()
+    /**
+     * @return iterable<list{string, string, string, array<string, int|string>}>
+     */
+    public static function dataProviderFor_match(): iterable
     {
         $not_found = 'Not Found!';
 
-        return [
-            ['GET', '/',                   'index',           []],
-            ['POST', '/',                  $not_found,        []],
-            ['PUT', '/',                   $not_found,        []],
-            ['HEAD', '/',                  'index',           []],
-            ['GET', '/foo',                $not_found,        []],
-            ['DELETE', '/foo',             $not_found,        []],
-            ['GET', '/@foo',               'show_user',       ['user' => 'foo']],
-            ['GET', '/@foo.json',          $not_found,        []],
-            ['GET', '/@foo/works',         'show_user_works', ['user' => 'foo']],
-            ['HEAD', '/@foo/works',        'show_user_works', ['user' => 'foo']],
-            ['POST', '/@foo/works',        $not_found,        []],
-            ['GET', '/@foo/works/123',     'show_user_work',  ['user' => 'foo', 'id' => 123]],
-            ['GET', '/@foo/works/abc',     $not_found,        []],
-            ['GET', '/articles',           'article_index',   []],
-            ['GET', '/data',               'data_json',       []],
-            ['POST', '/data',              'post_data_json',  []],
-            ['GET', '/data.',              $not_found,        []],
-            ['GET', '/data.json',          'data_json',       []],
-            ['GET', '/et al',              $not_found,        []],
-            ['GET', '/et al.',             'etal',            []],
-            ['GET', '/et al.json',         $not_found,        []],
-            ['GET', '/et al..json',        $not_found,        []],
-            ['GET', '/search/1234567890',  'search',          ['word' => '1234567890']],
-            ['GET', '/search/12345678901', $not_found,        []],
-        ];
+        yield ['GET', '/',                   'index',           []];
+        yield ['POST', '/',                  $not_found,        []];
+        yield ['PUT', '/',                   $not_found,        []];
+        yield ['HEAD', '/',                  'index',           []];
+        yield ['GET', '/foo',                $not_found,        []];
+        yield ['DELETE', '/foo',             $not_found,        []];
+        yield ['GET', '/@foo',               'show_user',       [
+            'user' => 'foo',
+        ]];
+        yield ['GET', '/@foo.json',          $not_found,        []];
+        yield ['GET', '/@foo/works',         'show_user_works', [
+            'user' => 'foo',
+        ]];
+        yield ['HEAD', '/@foo/works',        'show_user_works', [
+            'user' => 'foo',
+        ]];
+        yield ['POST', '/@foo/works',        $not_found,        []];
+        yield ['GET', '/@foo/works/123',     'show_user_work',  [
+            'user' => 'foo',
+            'id' => 123,
+        ]];
+        yield ['GET', '/@foo/works/abc',     $not_found,        []];
+        yield ['GET', '/articles',           'article_index',   []];
+        yield ['GET', '/data',               'data_json',       []];
+        yield ['POST', '/data',              'post_data_json',  []];
+        yield ['GET', '/data.',              $not_found,        []];
+        yield ['GET', '/data.json',          'data_json',       []];
+        yield ['GET', '/et al',              $not_found,        []];
+        yield ['GET', '/et al.',             'etal',            []];
+        yield ['GET', '/et al.json',         $not_found,        []];
+        yield ['GET', '/et al..json',        $not_found,        []];
+        yield ['GET', '/search/1234567890',  'search',          [
+            'word' => '1234567890',
+        ]];
+        yield ['GET', '/search/12345678901', $not_found,        []];
     }
 
-    /**
-     * @dataProvider dataProviderFor_match
-     */
-    public function test_dispatch($method, $path, $expected_value, $expected_param)
+    /** @param array<string, int|string> $expected_param */
+    #[DataProvider('dataProviderFor_match')]
+    public function test_dispatch(string $method, string $path, mixed $expected_value, array $expected_param): void
     {
         $actual = Router::dispatch(self::$route_map, $method, $path);
 
@@ -115,47 +133,140 @@ final class RouterTest extends TestCase
         $this->assertEquals(self::$router->match($method, $path), $actual);
     }
 
-    /**
-     * @dataProvider dataProviderFor_makePath
-     */
-    public function test_makePath($expected, $name, array $param, $strict)
+    /** @param array<string, int|string> $param */
+    #[DataProvider('dataProviderFor_makePath')]
+    public function test_makePath(string $expected, string $name, array $param, bool $strict): void
     {
         $this->assertEquals($expected, self::$router->makePath($name, $param, $strict));
     }
 
-    public function dataProviderFor_makePath()
+    /**
+     * @return iterable<array{string, string, array<string, int|string>, strict: bool}>
+     */
+    public static function dataProviderFor_makePath(): iterable
     {
-        return [
-            ['/',     'root', [],                    'strict' => false],
-            ['/',     'root', ['dummy' => 'val'],    'strict' => false],
-            ['/',     'root', [],                    'strict' => true],
-            ['/data', 'data', [],                    'strict' => false],
-            ['/data', 'data', [],                    'strict' => true],
-            ['/info.rss', 'info', ['?ext' => 'rss'], 'strict' => true],
-            ['/@john/works/12', 'user_work', ['user' => '@john', 'id' => 12], 'strict' => false],
-            ['/@john/works/12', 'user_work', ['user' => '@john', 'id' => 12], 'strict' => true],
+        yield [
+            '/',
+            'root',
+            [],
+            'strict' => false,
+        ];
+        yield [
+            '/',
+            'root',
+            [
+                'dummy' => 'val',
+            ],
+            'strict' => false,
+        ];
+        yield [
+            '/',
+            'root',
+            [],
+            'strict' => true,
+        ];
+        yield [
+            '/data',
+            'data',
+            [],
+            'strict' => false,
+        ];
+        yield [
+            '/data',
+            'data',
+            [],
+            'strict' => true,
+        ];
+        yield [
+            '/info.rss',
+            'info',
+            [
+                '?ext' => 'rss',
+            ],
+            'strict' => true,
+        ];
+        yield [
+            '/@john/works/12',
+            'user_work',
+            [
+                'user' => '@john',
+                'id' => 12,
+            ],
+            'strict' => false,
+        ];
+        yield [
+            '/@john/works/12',
+            'user_work',
+            [
+                'user' => '@john',
+                'id' => 12,
+            ],
+            'strict' => true,
         ];
     }
 
-    /**
-     * @dataProvider dataProviderFor_makePath_throws_DomainException
-     */
-    public function test_makePath_throws_DomainException($expected, $name, array $param)
+    /** @param array<string, int|string> $param */
+    #[DataProvider('dataProviderFor_makePath_throws_DomainException')]
+    public function test_makePath_throws_DomainException(string $expected, string $name, array $param): void
     {
-        $this->expectException('\DomainException', $expected);
-        $this->assertEquals($expected, self::$router->makePath($name, $param, true));
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage($expected);
+        self::$router->makePath($name, $param, true);
     }
 
-    public function dataProviderFor_makePath_throws_DomainException()
+    /**
+     * @return iterable<list{string, string, array<string, int|string>}>
+     */
+    public static function dataProviderFor_makePath_throws_DomainException(): iterable
     {
-        return [
-            ['unnecessary parameters', 'root',      ['dummy' => 'val']],
-            ['unnecessary parameters', 'data',      ['dummy' => 'val']],
-            ['Error',                  'user_work', [] ],
-            ['Error',                  'user_work', ['user'  => 'john'] ],
-            ['Error',                  'user_work', ['user'  => '@john'] ],
-            ['unnecessary parameters', 'user_work', ['dummy' => 'val']],
-            ['unnecessary parameters', 'user_work', ['user'  => '@john', 'id' => 12, 'dummy' => 'val']],
+        yield [
+            'unnecessary parameters',
+            'root',
+            [
+                'dummy' => 'val',
+            ],
+        ];
+        yield [
+            'unnecessary parameters',
+            'data',
+            [
+                'dummy' => 'val',
+            ],
+        ];
+        yield [
+            'Error',
+            'user_work',
+            [],
+        ];
+        yield [
+            'Error',
+            'user_work',
+            [
+                'user' => 'john',
+            ],
+        ];
+        yield [
+            'Error',
+            'user_work',
+            [
+                'user' => '@john',
+            ],
+        ];
+        yield [
+            'unnecessary parameters',
+            'user_work',
+            [
+                'dummy' => 'val',
+            ],
+        ];
+        yield [
+            'unnecessary parameters',
+            'user_work',
+            [
+                'user' => '@john',
+                'id' => 12,
+                'dummy' => 'val',
+            ],
         ];
     }
 }

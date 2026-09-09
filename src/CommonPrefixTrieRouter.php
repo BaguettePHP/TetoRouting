@@ -2,10 +2,12 @@
 
 namespace Teto\Routing;
 
+use function is_array;
+use function is_string;
 use function ord;
+use function sprintf;
 use function strlen;
 use function substr;
-use function sprintf;
 
 /**
  * 共通接頭辞木構造を連想配列で実装したRouter
@@ -17,29 +19,27 @@ use function sprintf;
  */
 final class CommonPrefixTrieRouter
 {
-    const URL_PARAMETER_TYPE_NUM = '[';
-    const URL_PARAMETER_TYPE_STRING = ']';
+    private const URL_PARAMETER_TYPE_NUM = '[';
 
-    /** @var string ルーティングが存在するノードにおいて、値はこのキーで引く */
-    private static $VALID_STATE_MARK = '>';
-    /** @var string URLパラメータがあった場合、このキーで引く */
-    private static $URL_PARAMETER_NAME = 'name';
+    private const URL_PARAMETER_TYPE_STRING = ']';
+
+    /** ルーティングが存在するノードにおいて、値はこのキーで引く */
+    private const VALID_STATE_MARK = '>';
+
+    /** URLパラメータがあった場合、このキーで引く */
+    private const URL_PARAMETER_NAME = 'name';
 
     /**
      * ルーティング決定のための探索を行う
      *
-     * @param array  $trie        指定の形式の連想配列
+     * @param array<string, array<string, mixed>> $trie 指定の形式の連想配列
      * @param string $request_uri 解析したいURL
      * @param string $http_method HTTPメソッド
      *
-     * @return array [
-     *   'value'  => ルーティングの結果。値はなんでもよい
-     *   'params' => [
-     *     'user_id' => '12345', // URLパラメータがあればその値を連想配列にする
-     *   ]
-     * ]
+     * @return array{value: mixed, params: array<int|string, string>}|null
+     *   `value` はルーティングの結果、`params` はURLパラメータの値。
      */
-    public static function search($trie, $request_uri, $http_method)
+    public static function search($trie, $request_uri, $http_method): ?array
     {
         $p = $trie[$http_method];
 
@@ -60,21 +60,41 @@ final class CommonPrefixTrieRouter
                 $num_only &= (48 <= $x && $x <= 57);
                 $i++;
             }
-            if (isset($p[$str])) {
+            if (isset($p[$str]) && is_array($p[$str])) {
                 $p = $p[$str];
-            } elseif ($num_only && isset($p[self::URL_PARAMETER_TYPE_NUM])) {
-                $p = $p[self::URL_PARAMETER_TYPE_NUM];
-                $result[$p[self::$URL_PARAMETER_NAME]] = substr($str, 1);
-            } elseif (isset($p[self::URL_PARAMETER_TYPE_STRING])) {
-                $p = $p[self::URL_PARAMETER_TYPE_STRING];
-                $result[$p[self::$URL_PARAMETER_NAME]] = substr($str, 1);
+            } elseif ($num_only && isset($p[self::URL_PARAMETER_TYPE_NUM]) && is_array($p[self::URL_PARAMETER_TYPE_NUM])) {
+                $parameter_node = $p[self::URL_PARAMETER_TYPE_NUM];
+                if (!isset($parameter_node[self::URL_PARAMETER_NAME]) || !is_string($parameter_node[self::URL_PARAMETER_NAME])) {
+                    $ok = false;
+                    break;
+                }
+                $p = $parameter_node;
+                $result[$parameter_node[self::URL_PARAMETER_NAME]] = substr($str, 1);
+            } elseif (isset($p[self::URL_PARAMETER_TYPE_STRING]) && is_array($p[self::URL_PARAMETER_TYPE_STRING])) {
+                $parameter_node = $p[self::URL_PARAMETER_TYPE_STRING];
+                if (!isset($parameter_node[self::URL_PARAMETER_NAME]) || !is_string($parameter_node[self::URL_PARAMETER_NAME])) {
+                    $ok = false;
+                    break;
+                }
+                $p = $parameter_node;
+                $result[$parameter_node[self::URL_PARAMETER_NAME]] = substr($str, 1);
             } else {
                 $ok = false;
                 break;
             }
         }
-        return $ok && isset($p[self::$VALID_STATE_MARK]) ? ['value' => $p[self::$VALID_STATE_MARK], 'params' => $result]
-                                                         : null;
+        return match ($ok && isset($p[self::VALID_STATE_MARK])) {
+            true => ['value' => $p[self::VALID_STATE_MARK], 'params' => $result],
+            false => null,
+        };
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    private static function createTrie(): array
+    {
+        return [];
     }
 
     /**
@@ -82,12 +102,12 @@ final class CommonPrefixTrieRouter
      *
      * 動的に木を組み立てるために参照 & を多用している
      *
-     * @param array $conf
-     * @return array
+     * @param list<list{string, string, mixed, 3?: array<string, string>}> $conf
+     * @return array<string, array<string, mixed>>
      */
     public static function trieConstruction(array $conf)
     {
-        $trie = [];
+        $trie = self::createTrie();
         foreach ($conf as $con) {
             $http_method = $con[0];
             $path = $con[1];
@@ -125,21 +145,32 @@ final class CommonPrefixTrieRouter
 
                 if (!isset($node[$partial_path])) {
                     if ($is_url_parameter) {
-                        $node[$partial_path] = [self::$URL_PARAMETER_NAME => $url_param_name];
+                        $node[$partial_path] = [self::URL_PARAMETER_NAME => $url_param_name];
                     } else {
                         $node[$partial_path] = [];
                     }
                 } else {
-                    if ($is_url_parameter && $node[$partial_path][self::$URL_PARAMETER_NAME] !== $url_param_name) {
-                        throw new \Exception(sprintf("URLパラメータに別名をつけようとしています %s (:%s, :%s)", $path, $url_param_name, $node[$partial_path][self::$URL_PARAMETER_NAME]));
+                    $existing_node = $node[$partial_path];
+                    if (!is_array($existing_node)) {
+                        throw new \Exception(sprintf("不正なTrieノードです %s", $path));
                     }
+                    $existing_param_name = $existing_node[self::URL_PARAMETER_NAME] ?? '';
+                    if (!is_string($existing_param_name)) {
+                        $existing_param_name = '';
+                    }
+                    if ($is_url_parameter && $existing_param_name !== $url_param_name) {
+                        throw new \Exception(sprintf("URLパラメータに別名をつけようとしています %s (:%s, :%s)", $path, $url_param_name, $existing_param_name));
+                    }
+                }
+                if (!is_array($node[$partial_path])) {
+                    throw new \Exception(sprintf("不正なTrieノードです %s", $path));
                 }
                 $node = &$node[$partial_path];
             }
-            if (isset($node[self::$VALID_STATE_MARK])) {
+            if (isset($node[self::VALID_STATE_MARK])) {
                 throw new \Exception(sprintf("重複したルーティングルールがあります %s", $path));
             }
-            $node[self::$VALID_STATE_MARK] = $value;
+            $node[self::VALID_STATE_MARK] = $value;
         }
 
         return $trie;

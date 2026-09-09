@@ -1,0 +1,10 @@
+includes:
+	- phpstan-baseline.neon
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+parameters:
+	level: max
+	reportUnmatchedIgnoredErrors: false
+	inferPrivatePropertyTypeFromConstructor: true
+	paths:
+		- src/
+		- tests/
