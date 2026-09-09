@@ -269,4 +269,61 @@ final class RouterTest extends TestCase
             ],
         ];
     }
+
+    public function test_setRejectsUnexpectedProperty(): void
+    {
+        $router = new Router(['#404' => 'Not Found!']);
+
+        $this->expectException(\OutOfRangeException::class);
+
+        $router->__set('unexpected', 'value');
+    }
+
+    public function test_constructorRejectsNonArrayRouteDefinition(): void
+    {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Route definitions must be arrays.');
+
+        new Router([
+            'invalid' => 'not an array',
+            '#404' => 'Not Found!',
+        ]);
+    }
+
+    public function test_matchRejectsUnsafePaths(): void
+    {
+        $router = new Router([
+            'home' => ['GET', '/home', 'Home'],
+            '#404' => 'Not Found!',
+        ]);
+
+        $this->assertSame('Not Found!', $router->match('GET', '/home//extra')->value);
+        $this->assertSame('Not Found!', $router->match('GET', "/home\x1Eextra")->value);
+    }
+
+    public function test_makePathRejectsUnknownName(): void
+    {
+        $router = new Router([
+            'home' => ['GET', '/home', 'Home'],
+            '#404' => 'Not Found!',
+        ]);
+
+        $this->expectException(\OutOfRangeException::class);
+        $this->expectExceptionMessage('"unknown" is not exists.');
+
+        $router->makePath('unknown');
+    }
+
+    public function test_makePathRejectsNonStringExtension(): void
+    {
+        $router = new Router([
+            'data' => ['GET', '/data', 'Data', '?ext' => ['json']],
+            '#404' => 'Not Found!',
+        ]);
+
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('The extension parameter must be a string or null.');
+
+        $router->makePath('data', ['?ext' => 1]);
+    }
 }

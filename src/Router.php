@@ -80,11 +80,7 @@ class Router
         if ($count > 0) {
             $file = explode('.', $split_path[$count - 1], 2);
             if (isset($file[1]) && strlen($file[1]) > 0) {
-                if (strlen($file[1]) > 0) {
-                    [$split_path[$count - 1], $ext] = $file;
-                } else {
-                    $split_path[$count - 1] .= '.';
-                }
+                [$split_path[$count - 1], $ext] = $file;
             }
         }
 

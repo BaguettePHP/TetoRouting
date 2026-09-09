@@ -34,7 +34,7 @@
     },
     "scripts": {
         "infection": "vendor-bin/infection/vendor/bin/infection run --no-progress",
-        "test": "php phpunit"
+        "test": "./vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true,
