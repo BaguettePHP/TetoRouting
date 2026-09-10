@@ -423,6 +423,16 @@ final class ActionTest extends TestCase
         $this->assertTrue($action->matchExtension('json'));
     }
 
+    public function test_makePathReportsUnexpectedParameterAsList(): void
+    {
+        $action = new Action(['GET'], ['/^\d+$/'], [0 => 'id'], [], 'returns!');
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('unnecessary parameters: ["dummy"]');
+
+        $action->makePath(['id' => 12, 'dummy' => 'value'], null, true);
+    }
+
     public function test_createBuildsAction(): void
     {
         $action = Action::create('GET', '/users/:id', 'returns!', [], ['id' => '/^\d+$/']);

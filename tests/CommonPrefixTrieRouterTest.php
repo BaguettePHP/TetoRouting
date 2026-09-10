@@ -55,6 +55,16 @@ final class CommonPrefixTrieRouterTest extends TestCase
         $this->assertNull(CommonPrefixTrieRouter::search($trie, '', 'GET'));
         $this->assertNull(CommonPrefixTrieRouter::search($trie, 'users/list', 'GET'));
         $this->assertNull(CommonPrefixTrieRouter::search($trie, '/posts/list', 'GET'));
+        $this->assertNull(CommonPrefixTrieRouter::search(
+            ['GET' => ['users' => ['>' => 'invalid']]],
+            'users',
+            'GET',
+        ));
+        $this->assertNull(CommonPrefixTrieRouter::search(
+            ['GET' => ['>' => 'root']],
+            '/missing',
+            'GET',
+        ));
     }
 
     public function test_searchReturnsNullForInvalidRequestsAgainstRootRoute(): void
@@ -65,6 +75,11 @@ final class CommonPrefixTrieRouterTest extends TestCase
 
         $this->assertNull(CommonPrefixTrieRouter::search($trie, '', 'GET'));
         $this->assertNull(CommonPrefixTrieRouter::search($trie, 'users', 'GET'));
+        $this->assertNull(CommonPrefixTrieRouter::search(
+            ['GET' => ['>' => 'root']],
+            '',
+            'GET',
+        ));
     }
 
     public function test_searchReturnsNullForMalformedNodes(): void
