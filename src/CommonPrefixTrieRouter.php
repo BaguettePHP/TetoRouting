@@ -49,10 +49,9 @@ final class CommonPrefixTrieRouter
         $result = []; // URLパラメータの値を記憶しておく変数
         while ($i < $length) {
             if ($request_uri[$i] !== '/') {
-                $ok = false;
-                break;
+                return null;
             }
-            $str = '' . $request_uri[$i++];
+            $str = $request_uri[$i++];
             $num_only = true;
             while ($i < $length && $request_uri[$i] !== '/') {
                 $str .= $request_uri[$i];
@@ -65,22 +64,19 @@ final class CommonPrefixTrieRouter
             } elseif ($num_only && isset($p[self::URL_PARAMETER_TYPE_NUM]) && is_array($p[self::URL_PARAMETER_TYPE_NUM])) {
                 $parameter_node = $p[self::URL_PARAMETER_TYPE_NUM];
                 if (!isset($parameter_node[self::URL_PARAMETER_NAME]) || !is_string($parameter_node[self::URL_PARAMETER_NAME])) {
-                    $ok = false;
-                    break;
+                    return null;
                 }
                 $p = $parameter_node;
                 $result[$parameter_node[self::URL_PARAMETER_NAME]] = substr($str, 1);
             } elseif (isset($p[self::URL_PARAMETER_TYPE_STRING]) && is_array($p[self::URL_PARAMETER_TYPE_STRING])) {
                 $parameter_node = $p[self::URL_PARAMETER_TYPE_STRING];
                 if (!isset($parameter_node[self::URL_PARAMETER_NAME]) || !is_string($parameter_node[self::URL_PARAMETER_NAME])) {
-                    $ok = false;
-                    break;
+                    return null;
                 }
                 $p = $parameter_node;
                 $result[$parameter_node[self::URL_PARAMETER_NAME]] = substr($str, 1);
             } else {
-                $ok = false;
-                break;
+                return null;
             }
         }
         return match ($ok && isset($p[self::VALID_STATE_MARK])) {

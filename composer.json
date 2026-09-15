@@ -15,6 +15,7 @@
         "php": "^8.3"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-phpunit": "^2.0",
@@ -32,12 +33,20 @@
         }
     },
     "scripts": {
-        "test": "php phpunit"
+        "infection": "vendor-bin/infection/vendor/bin/infection run --no-progress",
+        "test": "./vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "bamarni/composer-bin-plugin": true
+        }
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": true
         }
     }
 }

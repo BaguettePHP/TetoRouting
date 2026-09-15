@@ -8,6 +8,9 @@ on:
     paths-ignore:
     - '**/*.md'
 
+permissions:
+  contents: read
+
 jobs:
   phpunit:
     name: PHPUnit PHP ${{ matrix.php-versions }} (${{ matrix.dependencies }})
@@ -21,10 +24,12 @@ jobs:
           - lowest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      with:
+        persist-credentials: false
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@v2
+      uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # 2.35.5
       with:
         php-version: ${{ matrix.php-versions }}
         coverage: none
@@ -46,10 +51,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      with:
+        persist-credentials: false
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@v2
+      uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # 2.35.5
       with:
         php-version: '8.5'
         coverage: none
@@ -60,3 +67,25 @@ jobs:
 
     - name: Run PHPStan
       run: ./vendor/bin/phpstan
+
+  infection:
+    name: Infection
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      with:
+        persist-credentials: false
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # 2.35.5
+      with:
+        php-version: '8.5'
+        coverage: pcov
+        tools: composer
+
+    - name: Install dependencies
+      run: composer install --no-interaction --no-progress
+
+    - name: Run Infection
+      run: composer infection

@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.35.4/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "testFramework": "phpunit",
+    "staticAnalysisTool": "phpstan",
+    "minMsi": 100,
+    "minCoveredMsi": 100,
+    "mutators": {
+        "@default": true
+    }
+}

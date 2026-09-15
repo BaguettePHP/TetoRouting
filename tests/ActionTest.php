@@ -137,6 +137,19 @@ final class ActionTest extends TestCase
                 'expected' => false,
                 'param' => [],
                 'methods' => ['GET'],
+                'split_path' => ['users', 'profile'],
+                'extension' => [],
+                'param_pos' => [],
+                'request' => [
+                    'method' => 'GET',
+                    'path' => ['users', 'settings'],
+                    'ext' => '',
+                ],
+            ],
+            [
+                'expected' => false,
+                'param' => [],
+                'methods' => ['GET'],
                 'split_path' => ['users', '/(\d+)/'],
                 'extension' => [],
                 'param_pos' => [
@@ -351,6 +364,101 @@ final class ActionTest extends TestCase
                 'ext' => null,
                 'strict' => false,
             ],
+            [
+                'expected' => '/a/12/d.json',
+                'split_path' => ['a', '(^\d+$)', 'd'],
+                'param_pos' => [
+                    1 => 'b',
+                ],
+                'param' => [
+                    'b' => 12,
+                ],
+                'ext' => 'json',
+                'strict' => true,
+            ],
         ];
+    }
+
+    public function test_makePathRejectsUnexpectedParameterInStrictMode(): void
+    {
+        $action = new Action(['GET'], ['a'], [], [], 'returns!');
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('unnecessary parameters: ["dummy"]');
+
+        $action->makePath(['dummy' => 'value'], null, true);
+    }
+
+    public function test_makePathRejectsMissingParameter(): void
+    {
+        $action = new Action(['GET'], ['(^\d+$)'], [0 => 'id'], [], 'returns!');
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Error');
+
+        $action->makePath([], null, false);
+    }
+
+    public function test_matchRejectsRequestPathThatEqualsParameterPattern(): void
+    {
+        $action = new Action(['GET'], ['users', '(^\d+$)'], [1 => 'id'], [], 'returns!');
+
+        $this->assertNull($action->match('GET', ['users', '(^\d+$)'], ''));
+    }
+
+    public function test_matchUsesWholeMatchWhenPatternHasNoCaptureGroup(): void
+    {
+        $action = new Action(['GET'], ['/^\d+$/'], [0 => 'id'], [], 'returns!');
+
+        $matched = $action->match('GET', ['123'], '');
+
+        $this->assertNotNull($matched);
+        $this->assertSame(['id' => '123'], $matched->param);
+    }
+
+    public function test_matchExtensionIsPublic(): void
+    {
+        $action = new Action(['GET'], [], [], ['json'], 'returns!');
+
+        $this->assertTrue($action->matchExtension('json'));
+    }
+
+    public function test_makePathReportsUnexpectedParameterAsList(): void
+    {
+        $action = new Action(['GET'], ['/^\d+$/'], [0 => 'id'], [], 'returns!');
+
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('unnecessary parameters: ["dummy"]');
+
+        $action->makePath(['id' => 12, 'dummy' => 'value'], null, true);
+    }
+
+    public function test_createBuildsAction(): void
+    {
+        $action = Action::create('GET', '/users/:id', 'returns!', [], ['id' => '/^\d+$/']);
+
+        $this->assertSame(['users', '/^\d+$/'], $action->split_path);
+        $this->assertSame([1 => 'id'], $action->param_pos);
+        $this->assertSame('returns!', $action->value);
+    }
+
+    public function test_setHTTPMethodUpdatesAllowedMethods(): void
+    {
+        Action::setHTTPMethod(['GET', 'POST', 'PUT']);
+
+        try {
+            $action = new Action(['PUT'], [], [], [], 'returns!');
+
+            $this->assertSame(['PUT'], $action->methods);
+        } finally {
+            Action::setHTTPMethod(['GET', 'POST']);
+        }
+    }
+
+    public function test_constructorRejectsDisallowedMethod(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new Action(['PATCH'], [], [], [], 'returns!');
     }
 }
