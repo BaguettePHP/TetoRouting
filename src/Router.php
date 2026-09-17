@@ -9,7 +9,7 @@ use function explode;
 use function implode;
 use function is_numeric;
 use function is_string;
-use function strpos;
+use function str_contains;
 
 /**
  * @copyright 2016 BaguetteHQ
@@ -68,7 +68,7 @@ class Router
         if ($method === 'HEAD') {
             $method = 'GET';
         }
-        if (strpos($path, '//') !== false || strpos($path, self::_sep) !== false) {
+        if (str_contains($path, '//') || str_contains($path, self::_sep)) {
             return $this->getNotFoundAction($method, $path);
         }
 

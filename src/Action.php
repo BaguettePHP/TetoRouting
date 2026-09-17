@@ -14,8 +14,8 @@ use function implode;
 use function in_array;
 use function preg_match;
 use function sprintf;
+use function str_contains;
 use function strlen;
-use function strpos;
 use function substr;
 
 /**
@@ -206,7 +206,7 @@ class Action
         foreach ($split_path as $i => $p) {
             $variable = null;
 
-            if (strpos($p, ':') !== false) {
+            if (str_contains($p, ':')) {
                 $v = substr($p, 1);
                 if (isset($params[$v])) {
                     $variable = $v;
