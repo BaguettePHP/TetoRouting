@@ -310,6 +310,24 @@ final class RouterTest extends TestCase
         $this->assertTrue($router->match('GET', '/zero')->value);
     }
 
+    public function test_matchClearsParametersFromPreviouslyMatchedVariableAction(): void
+    {
+        $router = new Router([
+            'article' => ['GET', '/articles/:id', 'Article', [
+                'id' => '/^\d+$/',
+            ]],
+            'post' => ['GET', '/posts/:id', 'Post', [
+                'id' => '/^\d+$/',
+            ]],
+            '#404' => 'Not Found!',
+        ]);
+
+        $router->match('GET', '/articles/42');
+        $router->match('GET', '/posts/42');
+
+        $this->assertSame([], $router->named_actions['article']->param);
+    }
+
     public function test_setRejectsUnexpectedProperty(): void
     {
         $router = new Router(['#404' => 'Not Found!']);
