@@ -104,6 +104,10 @@ class Action
             return null;
         }
 
+        if ($this->param_pos === [] && $request_path === $this->split_path) {
+            return $this;
+        }
+
         foreach ($this->split_path as $i => $p) {
             $q = $request_path[$i];
 
