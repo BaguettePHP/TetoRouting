@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Teto\Routing;
 
 use function array_filter;
