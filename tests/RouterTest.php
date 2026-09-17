@@ -330,15 +330,6 @@ final class RouterTest extends TestCase
         $this->assertSame([], $router->named_actions['article']->param);
     }
 
-    public function test_setRejectsUnexpectedProperty(): void
-    {
-        $router = new Router(['#404' => 'Not Found!']);
-
-        $this->expectException(\OutOfRangeException::class);
-
-        $router->__set('unexpected', 'value');
-    }
-
     public function test_constructorRejectsNonArrayRouteDefinition(): void
     {
         $this->expectException(\TypeError::class);

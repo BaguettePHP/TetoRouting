@@ -35,11 +35,6 @@ class Router
     /** @var array<string, mixed> */
     public array $error_action = [];
 
-    public function __set(string $name, mixed $value): void
-    {
-        throw new \OutOfRangeException("Unexpected key:'$name'");
-    }
-
     /**
      * @param array<int|string, array{0: non-empty-string, 1: non-empty-string, 2?: mixed, 3?: array<string, string>, '?ext'?: list<string>}|string> $route_map
      */
