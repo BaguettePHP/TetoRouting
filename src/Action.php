@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Teto\Routing;
 
 use function array_diff;
@@ -14,8 +16,8 @@ use function implode;
 use function in_array;
 use function preg_match;
 use function sprintf;
+use function str_contains;
 use function strlen;
-use function strpos;
 use function substr;
 
 /**
@@ -28,21 +30,10 @@ class Action
 {
     private const string WILDCARD = '*';
 
-    /** @var array<int, string> */
-    public array $methods;
-
-    /** @var array<int, string> */
-    public array $split_path;
-
-    /** @var array<int, string> */
-    public array $param_pos;
-
-    public mixed $value;
-
     /** @var array<string, string> */
-    public array $param;
+    public array $param = [];
 
-    public string $extension;
+    public string $extension = '';
 
     public bool $is_wildcard;
 
@@ -58,16 +49,15 @@ class Action
      * @param array<int, string> $param_pos
      * @param array<int, string> $available_extensions
      */
-    public function __construct(array $methods, array $split_path, array $param_pos, array $available_extensions, mixed $value)
-    {
+    public function __construct(
+        public array $methods,
+        public array $split_path,
+        public array $param_pos,
+        array $available_extensions,
+        public mixed $value
+    ) {
         static::assertMethods($methods);
 
-        $this->methods = $methods;
-        $this->split_path = $split_path;
-        $this->param_pos = $param_pos;
-        $this->value = $value;
-        $this->param = [];
-        $this->extension = '';
         $this->is_wildcard = in_array(self::WILDCARD, $available_extensions, true);
         $this->available_extensions = match (count($available_extensions)) {
             0 => [
@@ -102,6 +92,10 @@ class Action
             $this->extension = $extension;
         } else {
             return null;
+        }
+
+        if ($this->param_pos === [] && $request_path === $this->split_path) {
+            return $this;
         }
 
         foreach ($this->split_path as $i => $p) {
@@ -202,7 +196,7 @@ class Action
         foreach ($split_path as $i => $p) {
             $variable = null;
 
-            if (strpos($p, ':') !== false) {
+            if (str_contains($p, ':')) {
                 $v = substr($p, 1);
                 if (isset($params[$v])) {
                     $variable = $v;

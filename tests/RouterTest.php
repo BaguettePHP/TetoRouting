@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Teto\Routing;
 
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -310,13 +312,56 @@ final class RouterTest extends TestCase
         $this->assertTrue($router->match('GET', '/zero')->value);
     }
 
-    public function test_setRejectsUnexpectedProperty(): void
+    public function test_matchClearsParametersFromPreviouslyMatchedVariableAction(): void
     {
-        $router = new Router(['#404' => 'Not Found!']);
+        $router = new Router([
+            'article' => ['GET', '/articles/:id', 'Article', [
+                'id' => '/^\d+$/',
+            ]],
+            'post' => ['GET', '/posts/:id', 'Post', [
+                'id' => '/^\d+$/',
+            ]],
+            '#404' => 'Not Found!',
+        ]);
 
-        $this->expectException(\OutOfRangeException::class);
+        $router->match('GET', '/articles/42');
+        $router->match('GET', '/posts/42');
 
-        $router->__set('unexpected', 'value');
+        $this->assertSame([], $router->named_actions['article']->param);
+    }
+
+    public function test_matchPreservesDotsInVariableRouteStaticSegments(): void
+    {
+        $router = new Router([
+            ['GET', '/:id/document.json', 'Document', [
+                'id' => '/\A\d+\z/',
+            ]],
+            ['GET', '/:id/other', 'Other', [
+                'id' => '/\A\d+\z/',
+            ]],
+            '#404' => 'Not Found!',
+        ]);
+
+        $this->assertSame('Document', $router->match('GET', '/42/document.json')->value);
+    }
+
+    public function test_matchClearsExtensionBeforeRejectingPreviouslyMatchedVariableAction(): void
+    {
+        $router = new Router([
+            'image' => ['GET', '/images/:id', 'Image', [
+                'id' => '/\A\d+\z/',
+            ], '?ext' => ['', 'jpg']],
+            ['GET', '/posts/:id', 'Post', [
+                'id' => '/\A\d+\z/',
+            ]],
+            '#404' => 'Not Found!',
+        ]);
+
+        $router->match('GET', '/images/42.jpg');
+        $router->match('GET', '/missing/42.jpg');
+        $router->match('GET', '/posts/42');
+
+        $this->assertSame('', $router->named_actions['image']->extension);
     }
 
     public function test_constructorRejectsNonArrayRouteDefinition(): void

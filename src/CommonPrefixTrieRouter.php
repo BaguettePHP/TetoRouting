@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Teto\Routing;
 
 use function is_array;
@@ -145,21 +147,18 @@ final class CommonPrefixTrieRouter
                     } else {
                         $node[$partial_path] = [];
                     }
-                } else {
-                    $existing_node = $node[$partial_path];
-                    if (!is_array($existing_node)) {
-                        throw new \Exception(sprintf("不正なTrieノードです %s", $path));
-                    }
-                    $existing_param_name = $existing_node[self::URL_PARAMETER_NAME] ?? '';
-                    if (!is_string($existing_param_name)) {
-                        $existing_param_name = '';
-                    }
-                    if ($is_url_parameter && $existing_param_name !== $url_param_name) {
-                        throw new \Exception(sprintf("URLパラメータに別名をつけようとしています %s (:%s, :%s)", $path, $url_param_name, $existing_param_name));
-                    }
+                    $node = &$node[$partial_path];
+                    continue;
                 }
                 if (!is_array($node[$partial_path])) {
                     throw new \Exception(sprintf("不正なTrieノードです %s", $path));
+                }
+                if ($is_url_parameter) {
+                    $existing_node = $node[$partial_path];
+                    $existing_param_name = $existing_node[self::URL_PARAMETER_NAME] ?? '';
+                    if ($existing_param_name !== $url_param_name) {
+                        throw new \Exception(sprintf("URLパラメータに別名をつけようとしています %s (:%s, :%s)", $path, $url_param_name, $existing_param_name));
+                    }
                 }
                 $node = &$node[$partial_path];
             }

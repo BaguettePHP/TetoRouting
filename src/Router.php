@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Teto\Routing;
 
 use function array_filter;
@@ -9,7 +11,7 @@ use function explode;
 use function implode;
 use function is_numeric;
 use function is_string;
-use function strpos;
+use function str_contains;
 
 /**
  * @copyright 2016 BaguetteHQ
@@ -32,11 +34,6 @@ class Router
 
     /** @var array<string, mixed> */
     public array $error_action = [];
-
-    public function __set(string $name, mixed $value): void
-    {
-        throw new \OutOfRangeException("Unexpected key:'$name'");
-    }
 
     /**
      * @param array<int|string, array{0: non-empty-string, 1: non-empty-string, 2?: mixed, 3?: array<string, string>, '?ext'?: list<string>}|string> $route_map
@@ -68,12 +65,13 @@ class Router
         if ($method === 'HEAD') {
             $method = 'GET';
         }
-        if (strpos($path, '//') !== false || strpos($path, self::_sep) !== false) {
+        if (str_contains($path, '//') || str_contains($path, self::_sep)) {
             return $this->getNotFoundAction($method, $path);
         }
 
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
         $count = count($split_path);
+        $not_found_path = $split_path;
 
         $ext = '';
 
@@ -93,20 +91,35 @@ class Router
         }
 
         if (isset($this->variable_actions[$count])) {
-            foreach ($this->variable_actions[$count] as $action) {
+            $variable_actions = $this->variable_actions[$count];
+            $filter_static_segments = count($variable_actions) > 1;
+            foreach ($variable_actions as $action) {
+                if ($filter_static_segments && $ext === '' && $action->param === [] && $action->extension === '') {
+                    foreach ($action->split_path as $position => $segment) {
+                        if (!isset($action->param_pos[$position]) && $segment !== $split_path[$position]) {
+                            continue 2;
+                        }
+                    }
+                }
                 if ($matched = $action->match($method, $split_path, $ext)) {
                     return $matched;
                 }
             }
         }
 
-        return $this->getNotFoundAction($method, $path);
+        return $this->createNotFoundAction($method, $not_found_path);
     }
 
     public function getNotFoundAction(string $method, string $path): Action
     {
         $split_path = array_values(array_filter(explode('/', $path), 'strlen'));
 
+        return $this->createNotFoundAction($method, $split_path);
+    }
+
+    /** @param list<string> $split_path */
+    private function createNotFoundAction(string $method, array $split_path): Action
+    {
         return new NotFoundAction(
             [$method],
             $split_path,
