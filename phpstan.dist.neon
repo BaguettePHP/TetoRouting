@@ -1,10 +1,12 @@
 includes:
 	- phpstan-baseline.neon
-	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor-bin/tools/vendor/phpstan/phpstan/conf/bleedingEdge.neon
 parameters:
 	level: max
 	reportUnmatchedIgnoredErrors: false
 	inferPrivatePropertyTypeFromConstructor: true
+	bootstrapFiles:
+		- vendor-bin/phpunit/vendor/autoload.php
 	paths:
 		- src/
 		- tests/

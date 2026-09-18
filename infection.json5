@@ -7,6 +7,12 @@
     },
     "testFramework": "phpunit",
     "staticAnalysisTool": "phpstan",
+    "phpUnit": {
+        "customPath": "vendor-bin/phpunit/vendor/bin/phpunit"
+    },
+    "phpStan": {
+        "customPath": "vendor-bin/tools/vendor/bin/phpstan"
+    },
     "minMsi": 100,
     "minCoveredMsi": 100,
     "mutators": {
