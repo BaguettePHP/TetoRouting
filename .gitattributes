@@ -9,3 +9,13 @@ docs/ export-ignore
 phpdox.xml* export-ignore
 phpunit.xml* export-ignore
 tests/ export-ignore
+/.github/ export-ignore
+/.editorconfig export-ignore
+/.gitignore export-ignore
+/apigen.neon export-ignore
+/composer.lock export-ignore
+/ecs.php export-ignore
+/infection.json5 export-ignore
+/phpstan-baseline.neon export-ignore
+/phpstan.dist.neon export-ignore
+/vendor-bin/ export-ignore
