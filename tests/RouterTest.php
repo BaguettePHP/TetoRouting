@@ -330,6 +330,40 @@ final class RouterTest extends TestCase
         $this->assertSame([], $router->named_actions['article']->param);
     }
 
+    public function test_matchPreservesDotsInVariableRouteStaticSegments(): void
+    {
+        $router = new Router([
+            ['GET', '/:id/document.json', 'Document', [
+                'id' => '/\A\d+\z/',
+            ]],
+            ['GET', '/:id/other', 'Other', [
+                'id' => '/\A\d+\z/',
+            ]],
+            '#404' => 'Not Found!',
+        ]);
+
+        $this->assertSame('Document', $router->match('GET', '/42/document.json')->value);
+    }
+
+    public function test_matchClearsExtensionBeforeRejectingPreviouslyMatchedVariableAction(): void
+    {
+        $router = new Router([
+            'image' => ['GET', '/images/:id', 'Image', [
+                'id' => '/\A\d+\z/',
+            ], '?ext' => ['', 'jpg']],
+            ['GET', '/posts/:id', 'Post', [
+                'id' => '/\A\d+\z/',
+            ]],
+            '#404' => 'Not Found!',
+        ]);
+
+        $router->match('GET', '/images/42.jpg');
+        $router->match('GET', '/missing/42.jpg');
+        $router->match('GET', '/posts/42');
+
+        $this->assertSame('', $router->named_actions['image']->extension);
+    }
+
     public function test_constructorRejectsNonArrayRouteDefinition(): void
     {
         $this->expectException(\TypeError::class);
